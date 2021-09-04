@@ -1,0 +1,9 @@
+echo -e Hola, igrese el nombre de quíen esta ejecutando:
+read basher 
+echo  Bienvenido a HolaBash $basher. >> 20104871.txt
+ echo -e  $basher , se encuentra ubicado en:/home/tito2/20202107023/HolaBash/20104871 >> 20104871.txt
+ echo -e  $basher, En esta ubicación /home/tito2/20202107023/HolaBash/20104871 tiene los siguentes permisos: >> 20104871.txt
+echo  total 5 drwxr-xr-x+ 1 tito2 tito2 0 Sep 3 21:09 . drwxr-xr-x+ 1 tito2 tito2 0 Sep 3 21:09 .. -rw-r--r-- 1 tito2 tito2 352 Sep 3 21:09 20104871.run -rw-r--r-- 1 tito2 tito2 0 Sep 3 21:09 20104871.txt  >> 20104871.txt
+echo -e  2 2 26 >> 20104871.txt
+echo -e  $basher, el nombre de este ejecutable es: 20104871.run  >> 20104871.txt
+cat 20104871.txt 
