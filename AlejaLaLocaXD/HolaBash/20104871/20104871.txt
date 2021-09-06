@@ -1,6 +1,0 @@
-Bienvenido a HolaBash María.
-María , se encuentra ubicado en:/home/tito2/20202107023/HolaBash/20104871
-María, En esta ubicación /home/tito2/20202107023/HolaBash/20104871 tiene los siguentes permisos:
-total 5 drwxr-xr-x+ 1 tito2 tito2 0 Sep 3 21:09 . drwxr-xr-x+ 1 tito2 tito2 0 Sep 3 21:09 .. -rw-r--r-- 1 tito2 tito2 352 Sep 3 21:09 20104871.run -rw-r--r-- 1 tito2 tito2 0 Sep 3 21:09 20104871.txt
-2 2 26
-María, el nombre de este ejecutable es: 20104871.run
