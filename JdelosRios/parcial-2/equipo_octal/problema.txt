@@ -1,0 +1,3 @@
+Turing esta buscando soluciones eficientes para cifrar y descifrar mensajes de texto. Dentro del
+equipo usted es el único que conoce un lenguaje de texto. Deberá proponerle un mecanismo tec- nológico a Turing (el no sabe que es un programa) que permita cifrar texto y descifrar (opcional)
+mensajes de texto al sistema numérico del equipo al cual usted pertenece.
