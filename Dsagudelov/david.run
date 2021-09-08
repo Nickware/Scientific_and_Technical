@@ -1,0 +1,1 @@
+valo=$(cat -v prueba.txt | sed 's/\'^M'//gI'); echo $valo
