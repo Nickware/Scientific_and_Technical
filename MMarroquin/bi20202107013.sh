@@ -18,8 +18,10 @@ chmod 740 bi20202107013.run
 echo "Señor Turing el mensaje codificado en el sistema octal es:"
 
 od -b msg20202107013.txt >> Salida.txt  #od para convertir de texto a octal; -b para que muestre los bytes de salida en octal
+#usos od con sus banderas: tomado de https://programmerclick.com/article/89431229076/
 
 contador_por_borrar=`awk '/0000/ {print $1}' salida.txt` #awk para buscar texto especifico con el cual el comando realizará una opción
+#awk: tomado de https://atareao.es/tutorial/terminal/filtros-awk-grep-sed-y-cut/
 
 N_de_palabras=$(echo $contador_por_borrar | wc -w) #contar cuantas entradas fueron halladas en "awk"
 
@@ -42,11 +44,14 @@ do #inicio del ciclo
     ((x++)) #incremento del ciclo
 done #fin del ciclo
 
+#Ciclos while: tomado de https://bioinf.comav.upv.es/courses/unix/scripts_bash.html
+
 cat Salida.txt #leer el contenido de "archivo"
 
 echo "Señor Turing el mensaje codificado en el sistema hexadecimal es:"
 
 hexdump -C Salida.txt >> Salida_hexadecimal.txt #hexdump para convertir de octal a hexadecimal; -C para que muestre los bytes de salida en hexadecimal
+#hexdump : tomado de https://www.sololinux.es/como-usar-el-comando-hexdump-en-linux/
 
 Por_borrar=`awk '/000000/ {print $1}' Salida_hexadecimal.txt` #awk para buscar texto especifico con el cual el comando realizará una opción
 
@@ -72,3 +77,4 @@ cat Salida_hexadecimal.txt #leé la informacion del archivo.txt en la terminal
 cp bi20202107013.sh bi20202107013.run #copia de la bitacora al archivo.run
 
 tar cf Pro20202107013.tar bi20202107013.run msg20202107013.txt Salida.txt Salida_hexadecimal.txt #tar para comprimir, c para que cree un nuevo archivo y f para decir que el archivo que vas a crear sea un .tar
+#uso comenado tar: tomado de https://www.youtube.com/watch?v=7VdcJ5HcDxI&ab_channel=SistemaGeek
