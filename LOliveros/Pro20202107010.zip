@@ -1,0 +1,29 @@
+title: Equipo Hexal de Turing
+author: Laura Oliveros
+data: 06/09/21
+version: 0.0.1
+Datos básicos del desarrollador
+Último dígito del código estudiantil: 0
+Último dígito del documento de identificación: 1
+echo title: Equipo Hexal de Turing >> 01-20202107010.txt 
+echo author: Laura Oliveros >> 01-20202107010.txt 
+echo data: 06/09/21 >> 01-20202107010.txt 
+echo version: 0.0.1 >> 01-20202107010.txt 
+echo Datos básicos del desarrollador >> 01-20202107010.txt 
+echo Último dígito del código estudiantil: 0 >> 01-20202107010.txt 
+echo Último dígito del documento de identificación: 1 >> 01-20202107010.txt 
+echo title: Equipo Hexal de Turing >> 02-20202107010.txt 
+echo author: Laura Oliveros >> 02-20202107010.txt 
+echo data: 06/09/21 >> 02-20202107010.txt 
+echo version: 0.0.1 >> 02-20202107010.txt
+echo Datos básicos del desarrollador >> 02-20202107010.txt
+echo Último dígito del código estudiantil: 0 >> 02-20202107010.txt
+echo Último dígito del documento de identificación: 1 >> 02-20202107010.txt
+echo title: Equipo Hexal de Turing >> 20202107010.run
+echo author: Laura Oliveros >> 20202107010.run
+echo data: 06/09/21 >> 20202107010.run
+echo version: 0.0.1 >> 20202107010.run
+echo Datos básicos del desarrollador >> 20202107010.run
+echo Último dígito del código estudiantil: 0 >> 20202107010.run
+echo Último dígito del documento de identificación: 1 >> 20202107010.run
+echo Mensaje sin cifrar >> 01-20202107010.txt
