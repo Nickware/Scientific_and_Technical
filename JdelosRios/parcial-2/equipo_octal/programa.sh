@@ -15,7 +15,7 @@ echo "Funcion del programa Turing"
 sleep 2
 echo "Cifrar y decifrar mensajes de texto"
 echo "cambiando permisos"
-chmod 740 programa.sh
+chmod 740 prueba.sh
 echo "Crendo ad.txt"
 sleep 2 
 echo "En este archivo.txt debera escribir el mensaje que desea decifrar"
@@ -26,5 +26,9 @@ chmod 777 ad.txt
 sleep 30
 nano ad.txt
 sleep 2
-cat ad.txt
-
+echo "el numero ingresado fue"
+cat ad.txt|tee -a codigo.txt|tee -a historial.txt
+rm ad.txt
+od -b codigo.txt |tee -a historial.txt
+rm codigo.txt
+                        
