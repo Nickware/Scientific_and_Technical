@@ -4,4 +4,9 @@
 #date:31/08/2021
 #version:0.0.4
 
-tar -xvf pro20202107039.tar  
+#rutina para descomprimir el archivo pro20202107039.tar
+echo -n "Escribe tu nombre"
+read var1
+echo "hola $var1, estamos descomprimendo el archivo"
+tar -xvf pro20202107039.tar 
+echo "listo, esta descomprimido:)" 
