@@ -1,0 +1,177 @@
+
+#!/bin/bash
+#Cifrador y decifrador para turing
+#Author: David Santiago Agudelo Villamizar
+#Date: 09/09/2021
+#version: 0.0.1
+
+#desarrollaremos una maquina que tome un texto y lo convierta en hexal y de paso en binario y octal
+
+
+#asignare el texto como una variable pura
+#tambien limpiare ese texto con un cat -v que tomara el texto, mostrara los saltos con un ^M 
+# con el sed eliminare esta "palabra" con s y dandole todo el recorrido con gI
+menu=0
+menucifrar=0
+#asignamos las variables correspondientes al menu que haremos a continuacion 
+owl=$(cat -v texto.txt | sed 's/\'^M'//gI')
+#recordar que este while lo que me esta generando es el menu constante en 3 opciones fijas
+while [ $menu -ne 3 ] ; do 
+
+clear
+echo
+echo
+echo "          bienvenido a el menu" 
+echo 
+echo
+echo "          1. Cifrar el texto "
+echo "          2. Desifrar el texto "
+echo "          3. Salir "
+echo
+echo -e "\033[1mle recordamos que el texto a cifrar debe estar llamado como texto.txt y el texto a decifrar debe estar llamado como textode.txt\033[0m"
+echo 
+read -p " Seleccione una opción " menu 
+
+case $menu in 
+
+        1) clear
+            echo "Escogiste cifrar el texto"
+            sleep 3
+            while [ $menucifrar -ne 4 ] ; do
+            clear
+            echo
+            echo "1) cifrar a hexal"
+            echo "2) cifrar a binario "
+            echo "3) cifrar a octal"
+            read -p " seleccion " menucifrar
+                case $menucifrar in 
+                    1) clear
+                    #un case que apartir de mi while le dara respuesta directa a lo que le de despues del read 
+#es bueno darse cuenta que el sleep hace una pausa de 3 segundos para que el usuario lea lo que le queremos dar  
+                    echo "cifrando a hexal"
+                     # la complejidad de esta parte es crear una variable de ejecucion que genere la transferencia segun tenemos el bc pero para texto
+                    # por ende usamos este chrbi
+                            chrbin1() {
+                                  echo $(printf \\$(echo "ibase=2; obase=8; $1" | bc))
+                                    }
+
+                                            ordbin1() {
+                                             a=$(printf '%d' "'$1")
+                                                b=$(echo "obase=10; $a" | bc)
+                                             printf '%08d' $b 
+                                                    }
+
+                                            ascii2bin1() {
+                                              echo -n $* | while IFS= read -r -n1 char
+                                                 do
+                                                 ordbin1 $char | tr -d '\n'
+                                                  echo -n " "
+                                                 done
+                                                        } 
+                                                         #usaremos la parte siguiente para enviarlo a el texto que queremos que la persona lea
+                                                        #ademas agregamos un espacio por si la persona desea poner varios textos e irlos pasando 
+                                                        #por eso usamos el >> en vez del >  ya que este ultimo sobre escribe, si queremos que se sobre escriba 
+                                                        #solo usaremos el 
+                            ascii2bin1 "$owl" >> textohexal.txt
+                            echo -e "\n" >> textohexal.txt
+                    echo
+                    echo "un momento por favor"
+                    echo
+                    sleep 2 
+                    echo
+                    echo "el texto se cifro en la ruta textoahexal.txt"
+                    sleep 2
+                    ;;
+                    2) clear
+                    echo "cifrando a binario"
+                    
+                            chrbin2() {
+                                  echo $(printf \\$(echo "ibase=2; obase=8; $1" | bc))
+                                    }
+
+                                            ordbin2() {
+                                             a=$(printf '%d' "'$1")
+                                                b=$(echo "obase=2; $a" | bc)
+                                             printf '%08d' $b 
+                                                    }
+
+                                            ascii2bin2() {
+                                              echo -n $* | while IFS= read -r -n1 char
+                                                 do
+                                                 ordbin2 $char | tr -d '\n'
+                                                  echo -n " "
+                                                 done
+                                                        }
+                            ascii2bin2 "$owl" >> textobinario.txt
+                            echo -e "\n" >> textobinario.txt
+                    echo
+                    echo "un momento por favor"
+                    sleep 2
+                    echo
+                    echo "el texto se cifro en la ruta textobinario.txt"
+                    sleep 2
+                    ;;
+                    3) clear
+                    echo "cifrando a octal"
+                    
+                            chrbin3() {
+                                  echo $(printf \\$(echo "ibase=2; obase=8; $1" | bc))
+                                    }
+
+                                            ordbin3() {
+                                             a=$(printf '%d' "'$1")
+                                                b=$(echo "obase=8; $a" | bc)
+                                             printf '%08d' $b 
+                                                    }
+
+                                            ascii2bin3() {
+                                              echo -n $* | while IFS= read -r -n1 char
+                                                 do
+                                                 ordbin3 $char | tr -d '\n'
+                                                  echo -n " "
+                                                 done
+                                                        }
+
+                            ascii2bin3 "$owl" >> textoctal.txt
+                            echo -e "\n" >> textoctal.txt
+                    echo
+                    echo "un momento por favor"
+                    sleep 2
+                    echo
+                    echo "el texto se cifro en la ruta textoctal.txt"
+                    sleep 2
+                    ;;
+                    *) echo $menucifrar no es una opcion valida
+                    #este ultimo es por si la persona no seleciona una opcion dentro de nuestro rango dado
+                    
+                    sleep 2 
+                    ;;
+                esac 
+            done
+            ;;
+        2) clear 
+            echo "Escogiste decifrar el texto"
+            sleep 3
+            #para hacer el decifrado usarremos la misma parte que el cifrado 
+        #pero usaremos esta parte como la contra parte exacta y tomar el ejecutable de charbin al reves
+    
+        
+         #bin2ascii() {
+    #for bin in $*
+    #do
+       # chrbin $bin | tr -d '\n'
+    #done
+}
+            ;;
+        3) clear 
+            echo "Vas a salir" 
+            sleep 2
+            ;;
+        *) echo $menu no es una opcion valida
+        sleep 3
+        ;;
+
+
+esac
+
+done
