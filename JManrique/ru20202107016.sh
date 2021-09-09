@@ -15,14 +15,14 @@ echo "==========================================================================
 echo "                                              ¡Hola!"
 echo "                     Bienvenido a la rutina de descompresión de archivos .zip"
 echo -e "A continuación, escriba el nombre del archivo que desea descomprimir (sin la extensión .zip al final):"
-read name
+read name # Toma de datos
 echo ""
 echo "El nombre del archivo a descomprimir es el siguiente: $name"
 
 # 2. Identificación del archivo y respuesta
 
-if [ -e $name.zip ]
-then
+if [ -e $name.zip ] # Condicional para la descompresión del archivo basado en la toma de datos previa
+then #Si el archivo existe, descomprime y lo guarda dentro de una carpeta con su mismo nombre
     mkdir $name
     cp $name.zip $name
     cd $name 
@@ -35,27 +35,33 @@ then
     echo -e "1 = Sí             |             Presione cualquier tecla = No"
     read decision
     echo ""
-    if [ $decision -eq "1" ]
+    if [ $decision -eq "1" ] # Módulo de elección para una reejecución del programa o finalización del mismo
     then
-        bash ru20202107016.sh
+        bash ru20202107016.sh # Reejecución del programa
     else
         echo "¡Gracias por usar nuestro programa!"
         echo ""
-        echo "Vuelva pronto..."
+        echo "Vuelva pronto..." # Finalización del programa
     fi
-else
+else # Si no, arroja mensaje de error
     echo "Lo lamentamos, pero el archivo que usted indicó no se encuentra"
     echo ""
     echo "     ¿Desea volver a ejecutar el programa?"
     echo -e "1=Sí             |             Presione cualquier tecla=No"
     read decision
     echo ""
-    if [ $decision -eq "1" ]
+    if [ $decision -eq "1" ] # Módulo de elección para una reejecución del programa o finalización del mismo
     then
-        bash ru20202107016.sh
+        bash ru20202107016.sh # Reejecución del programa
     else
         echo "¡Gracias por usar nuestro programa!"
         echo ""
-        echo "Vuelva pronto..."
+        echo "Vuelva pronto..." # Finalización del programa
     fi
 fi
+
+# 3. Referencias
+
+# Variables en bash: https://atareao.es/tutorial/scripts-en-bash/variables-en-bash/
+# Condicionales y ciclos en bash: https://bioinf.comav.upv.es/courses/unix/scripts_bash.html
+# Compresión y descompresión de archivos .zip: https://www.youtube.com/watch?v=iNjOJ2EfhSw

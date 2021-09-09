@@ -95,7 +95,9 @@ echo "Title: Resultado.txt" >> Resultado.txt
 echo "Author: Juan Sebastian Manrique Moreno" >> Resultado.txt
 echo "Date: 6 de septiembre de 2021" >> Resultado.txt
 echo "ID: 1.000.942.101" >> Resultado.txt
+echo "Last digit ID: 1" >> Resultado.txt
 echo "Institucional ID: 20202107016" >> Resultado.txt
+echo "Last digit Institucional ID: 6" >> Resultado.txt
 
 echo "" >> Resultado.txt # Espacios dentro del archivo Resultado.txt
 
@@ -111,7 +113,7 @@ echo "" >> Resultado.txt # Espacios dentro del archivo Resultado.txt
 echo "Estos son los resultados de octal:" >> Resultado.txt
 echo "$resultados_o" >> Resultado.txt
 
-echo "" >> Resultado.txt
+echo "" >> Resultado.txt # Espacios dentro del archivo Resultado.txt
 
 echo "Buena suerte señor Turing..." >> Resultado.txt
 
@@ -122,3 +124,13 @@ cat Resultado.txt # Visualización del archivo Resultado.txt en la terminal
 zip -q Pro20202107016.zip *bi20202107016.run *Mensaje.txt *Resultado.txt # Creación del comprimido
 
 rm bi20202107016.run Resultado.txt Mensaje.txt # Eliminación de los archivos incluidos en el comprimido
+
+# 5. Referencias
+
+# Variables en bash: https://atareao.es/tutorial/scripts-en-bash/variables-en-bash/
+# Contador de palabras: https://www.espaciolinux.com/foros/programacion/programacion-en-bash-contar-las-palabras-de-una-li-t32253.html
+# Condicionales y ciclos en bash: https://bioinf.comav.upv.es/courses/unix/scripts_bash.html
+# Conversión a hexadecimal: https://www.sololinux.es/como-usar-el-comando-hexdump-en-linux/
+# Conversión a octal: https://programmerclick.com/article/89431229076/
+# Funcionamiento del comando sed y awk: https://atareao.es/tutorial/terminal/filtros-awk-grep-sed-y-cut/
+# Compresión y descompresión de archivos .zip: https://www.youtube.com/watch?v=iNjOJ2EfhSw
