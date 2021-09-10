@@ -1,0 +1,5 @@
+echo "descomprimiento el codificador" #descomprimiendo el codificador al hexal
+unzip Pro20202107012.zip
+echo "descomprimiendo el descodificador" #descomprimiendo el descodificador al texto
+unzip Pro20202107012.2.zip
+
