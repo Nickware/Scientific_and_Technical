@@ -66,7 +66,7 @@ echo "Also, I can show you the conversion between a binary and a decimal system.
 hexdump -d bin.txt >> deci.txt  #Se utiliza hexdump para leer los bytes en binario e imprimir la salida como número decimal por el -d. Se visualizan los decimales de dos bytes. Fuente (3)
 echo "I show you the converted result:"
 cat deci.txt
-echo "-.................................................................................."
+echo "-............................................................................................."
 
 #Descifrado de binario a texto (parte opcional):
 
