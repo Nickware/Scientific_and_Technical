@@ -14,6 +14,8 @@ read nube
 echo "Se subirá $nube"
 
 #inicio de subida o como se diga xd
+echo "Reiniciar repositorio"
+git init
 echo "Actualizar"
 git pull
 echo "Muestreme el estado"
