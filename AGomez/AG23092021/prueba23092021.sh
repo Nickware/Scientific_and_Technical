@@ -14,4 +14,9 @@ read altura
 #Modelo matematico
 baseArea=$(echo "$pi * $radio * $radio" | bc -l)
 cilindroVolumen=$(echo "$baseArea * $altura" | bc -l)
+echo "Usted ingreso como parametro de radio: $radio"
+echo "Usted ingreso como parametro de altura: $altura"
+
+echo "El volumen del cilindro con los datos ingresados es: $cilindroVolumen"
+
 #Modelo fisico
