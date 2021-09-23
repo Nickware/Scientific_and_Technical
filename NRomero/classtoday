@@ -1,0 +1,24 @@
+version 0.0
+#Author: Norman Romero
+#clas 23/9/21
+#!/usr/bin/bash
+#pi=$(echo "scale 10; 4*a(1) | bc -l)
+#parametro = variable
+pi=$(echo "scale=5; 4*a(1)" | bc -l)
+#Enviar mensajes, archivos -leer -datos,, pasar datos -texto
+echo "Programa que calcula volumen de un cilindro"
+echo -e "Ingrese el radio: "
+read radio
+echo -e "Ingrese la altura:"
+read altura
+#modelo matematico
+baseArea=$(echo "$pi *$radio * $radio" | bc -l)
+cilindroVolumen=$(echo "$baseArea *$altura" | bc -l)
+#modelo fisico
+#ecuaciones cinematica que permiten describir el fenomeno
+#modelo sencillo (mecanica o electromagnetismo),mecanica de fluidos, caida de agua en drenaje
+#quimica, elemento base arroja elemento
+#free fall <<< 
+echo "Usted ingreso como parametro de radio: $radio"
+echo "Usted ingreso como parametro de algura: $altura"
+echo "El volumen con los datos ingresados del cilindro es: $cilindro"
