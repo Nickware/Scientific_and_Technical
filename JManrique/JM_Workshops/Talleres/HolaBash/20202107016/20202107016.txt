@@ -1,0 +1,18 @@
+Su nombre es: Juan Sebastian Manrique Moreno
+Su nombre de usuario es: jsman
+
+Usted está ubicado en: /home/ELEMENTOS_COMPUTACIONALES/TALLER/20202107016
+
+Los permisos que posee la carpeta donde usted está ubicado son los siguientes:
+drwxrwxrwx+ 1 jsman jsman 0 sep.  2 13:45 .
+
+Los permisos de los archivos que están dentro de la carpeta 20202107016 son:
+total 21
+drwxrwxrwx+ 1 jsman jsman    0 sep.  2 13:45 .
+drwxr-xr-x+ 1 jsman jsman    0 sep.  2 13:45 ..
+-rwxr-x--x  1 jsman jsman 1355 sep.  2 13:45 20202107016.run
+-rwxr-x--x  1 jsman jsman 4154 sep.  2 13:45 20202107016.sh
+-rw-r--r--  1 jsman jsman  356 sep.  2 13:46 20202107016.txt
+
+El nombre del archivo de dónde usted está ejecutando este programa es: 20202107016.run
+

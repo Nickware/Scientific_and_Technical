@@ -1,0 +1,42 @@
+#!/bin/bash
+# Title: 20202107016.run
+# Author: Juan Sebastian Manrique Moreno
+# Date: 26 de agosto de 2021
+
+touch 20202107016.txt
+
+nombre= 
+
+echo 
+echo -e Por favor, digite su nombre completo: 
+read name
+nombre=$name
+echo 
+
+echo Su nombre es: $nombre >> 20202107016.txt
+echo Su nombre es: $nombre
+
+echo Su nombre de usuario es: jsman >> 20202107016.txt
+echo Su nombre de usuario es: jsman
+echo
+echo  >> 20202107016.txt
+
+echo Usted está ubicado en: /home/ELEMENTOS_COMPUTACIONALES/TALLER/20202107016 >> 20202107016.txt
+echo  >> 20202107016.txt
+echo Usted está ubicado en: /home/ELEMENTOS_COMPUTACIONALES/TALLER/20202107016
+
+echo Los permisos que posee la carpeta donde usted está ubicado son los siguientes: >> 20202107016.txt
+ls -la -d >> 20202107016.txt
+echo  >> 20202107016.txt
+echo Los permisos que posee la carpeta donde usted está ubicado son los siguientes:
+ls -la -d
+
+echo Los permisos de los archivos que están dentro de la carpeta 20202107016 son: >> 20202107016.txt
+ls -la >> 20202107016.txt
+echo  >> 20202107016.txt
+echo Los permisos de los archivos que están dentro de la carpeta 20202107016 son:
+ls -la
+
+echo El nombre del archivo de dónde usted está ejecutando este programa es: 20202107016.run >> 20202107016.txt
+echo  >> 20202107016.txt
+echo El nombre del archivo de dónde usted está ejecutando este programa es: 20202107016.run
