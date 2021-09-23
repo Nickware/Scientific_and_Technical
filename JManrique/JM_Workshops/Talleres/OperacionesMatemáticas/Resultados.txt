@@ -1,0 +1,13 @@
+Bienvenido al reporte final con los resultados de las conversiones
+==================================================================
+A continuación los datos convertidos de binario a decimal:
+El número registrado fue: 11100
+Y su valor en decimal es: 28
+====================
+========================================================
+A continuación los datos convertidos de octal a binario:
+El número registrado fue: 421, y su número en binario es:
+100010001
+====================
+======================================================
+Gracias por utilizar nuestro programa... vuelva pronto
