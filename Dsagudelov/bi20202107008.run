@@ -19,7 +19,7 @@ owl=$(cat -v texto.txt | sed 's/\'^M'//gI')
 while [ $menu -ne 3 ] ; do 
 
 clear
-echo
+echo 
 echo
 echo "          bienvenido a el menu" 
 echo 
@@ -175,3 +175,6 @@ case $menu in
 esac
 
 done
+#espero salga bien las cosas
+
+        
