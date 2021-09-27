@@ -1,0 +1,22 @@
+#!/usr/bin/bash
+#autor: Norman Romero
+#variables - ctes
+#creando comandos
+export TZ=America/Bogota
+echo "Zona horaria es: $TZ"
+date
+export TZ=Asia/Tokyo
+echo "Zona horaria es: $TZ"
+date
+unset TZ   
+ #utilizar declarar parametros
+#tz =time zone
+#ejemplo 
+echo "Total numero de parametros son: $#"
+echo "NOmbre del archivo $0"
+#0 nombre del archivo?
+echo "Primer parametro $1"
+echo "Primer parametro $2"
+echo "Primer parametro $3"
+echo "Todos los parametros: $*"
+
