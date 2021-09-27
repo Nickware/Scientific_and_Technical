@@ -16,4 +16,4 @@ echo "Debe ingresarse de la manera: git commit -m "Comentario""
 read commit
 $commit 
 #Se puede personalizar de la forma: git push https://<tocken>/nickware/nickware/Elementos_computacionales.git <branch>
-git push https://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/nickware/nickware/Elementos_computacionales.git/SCriollo/
+git push https://<token>/nickware/nickware/Elementos_computacionales.git <branch>
