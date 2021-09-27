@@ -1,0 +1,25 @@
+#autor: jorge garzon
+#variables - constantes- array
+export TZ=America/Bogota
+echo "Zona horaria es: $TZ"
+DATE
+export TZ=Asia/Tokyo
+echo "Zona Horaria es: $TZ"
+DATE
+unset TZ 
+
+
+#ejemplo
+echo "Total numero de parametros son: $#"
+echo "Nombre del archivo: $0"
+echo "primer parametro: $1"
+echo "segundo parametro: $2"
+echo "tercer parametro: $3"
+echo "Todos los parametros: $*"
+
+
+#ejemplo 2
+echo "La fecha es $(date)
+set $(date)
+echo El mes es $3 
+exit 0
