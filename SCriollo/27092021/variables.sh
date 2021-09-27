@@ -21,4 +21,17 @@ echo El mes es: $4
 exit 0
 
 # Ejemplo 4 "Pasar argumentos d euna posición a otra"
-echo "Todos los argumentos"
+echo "$*" #todos los argumentos
+echo "Shift, en la primera posición: "
+shift
+# echo "Shift, en la primera posición: "
+echo "$1"
+shift
+echo "shift, en la segunda posicion"
+shift 2
+
+# Ejemplo 5
+frutas=(banano manzana fresa) #Un arreglo
+echo ${frutas[*]} #Tomar todos los arreglos
+echo ${frutas[0]} #Tomar solo un arreglo
+
