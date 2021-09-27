@@ -44,3 +44,11 @@ frutas=(mango banano manzana)
 echo ${frutas[*]}
 echo ${frutas[0]}
 # arreglo=(x y z)
+# >> ENVIAR
+# <<< RECIBIR
+
+cat << QUIT
+Nombre archivo $0
+Primer argumento $1
+Segundo argumento $2
+QUIT
