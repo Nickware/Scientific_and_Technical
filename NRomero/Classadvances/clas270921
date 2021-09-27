@@ -19,4 +19,24 @@ echo "Primer parametro $1"
 echo "Primer parametro $2"
 echo "Primer parametro $3"
 echo "Todos los parametros: $*"
+######
+echo "La fecha es $(date)"
+#set ==-> establecer
+set $(date)
+echo El mes es $3
+exit 0
+#ejemplo 4
+echo "Todos los argumentos: "
+echo "$*"
+echo "shift, en la primera posicion"
+shift
+echo "$1"
+shift
+echo "shift, en la segunda posicion"
+shift 2 
 
+#### 5
+$frutas={aguacate banano manzana} #frutas compuesta
+echo ${frutas[*]}
+echo ${frutas[0]} 
+#arreglo = (x y z)
