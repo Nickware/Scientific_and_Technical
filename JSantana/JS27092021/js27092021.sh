@@ -38,3 +38,9 @@ shift 2
 frutas=(aguacate banano manzana)
 echo ${frutas[*]}
 echo ${frutas[0]}
+
+cat << QUIT
+nombre archivo $0
+primer argumento $3
+segundo argumento $2
+QUIT
