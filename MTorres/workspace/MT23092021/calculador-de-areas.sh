@@ -6,21 +6,34 @@
 
 #calculadora >> valor
 
-#definir una variable pi
-pi=$(echo "scale=10" ; "4*(a)" | bc -l)
+#definir la variable pi, la  dejo en escala de 9 decimales porque al dejar 10 me arroja un error y fue la unica manera que vi para corregirlo
 
+pi=$(echo "scale=9; 4*a(1)" | bc -l)
 
-# en este punto se interactua con el usuario
+# Se le informa al usuario la funcion que cumple el programa
 echo "programa que calcula el volumen de figuras cilindricas"
 
-echo -e "Ingrese el radio:  "
+
+echo "Señor usuario por favor"
+echo -e "Ingrese el radio en metros:  "
 read radio
 
-echo -e "Ingrese altura: "
+echo -e "Ingrese altura en metros: "
 read altura
 
-#formula matematica
+echo "los datos ingresados anteriormente fueron: "
+echo -e "radio: $radio metros"
+echo -e "altura: $altura metros"
+
+#formula matematica para calcular el area base del cilindro
 
 baseArea=$(echo "$pi * $radio * $altura" | bc -l)
 
+echo -e "La area de la base es de: $baseArea metros cuadrados"
+
+
+# formula para calcular el volumen
+
 cilindroVolumen=$(echo "$baseArea * $altura" | bc -l)
+
+echo -e "El volumen del cilindro anteriormente ingresado es de: $cilindroVolumen metros cubicos"
