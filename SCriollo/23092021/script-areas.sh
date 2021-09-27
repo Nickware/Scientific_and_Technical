@@ -2,7 +2,7 @@
 # Author: Santiago Criollo
 # Date: 23/09/2021
 # version 0.2
-# Title: calculador de área y volumen de un cilindro
+# Title: calculador de área y volumen de un cilindro en metros
 
 
 #Calcula areas
@@ -44,5 +44,5 @@ cilindroArea=$(echo "(2 * $pi * $radio * $altura) + (2 * $pi * $radio * $radio)"
 echo "Usted ingreso como parametro de radio: $radio"
 echo "Usted ingreso como parametro de altura: $altura"
 
-echo "El area con los datos ingresados del cilindro es: $cilindroArea"
-echo "El volumen con los datos ingresados del cilindro es: $cilindroVolumen"
+echo "El area en metros con los datos ingresados del cilindro es: $cilindroArea"
+echo "El volumen en metros con los datos ingresados del cilindro es: $cilindroVolumen"
