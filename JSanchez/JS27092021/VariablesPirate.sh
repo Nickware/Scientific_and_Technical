@@ -46,3 +46,8 @@ echo ${frutas [*]}
 echo ${frutas [0]}
 # arreglo=(x y z)
 
+# >> ENVIAR
+# << RECIBIR
+
+cat << QUIT 
+nombre archivo
