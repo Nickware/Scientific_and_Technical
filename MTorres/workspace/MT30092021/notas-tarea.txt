@@ -1,0 +1,15 @@
+
+Consejos para poder abordar bien la tarea
+ 
+modelado: analizar bien el problema, dar solucion o elegir bien los parametros que deseo que se involucren en mi programa
+definir variables, delimitar el problema
+
+formalizar: dar mas detalles del problema, en este caso como se aborda el tema de funciones cuadraticas y sus posibles soluciones
+definir los parametros, que se le va a solicitar al usuario, las variables, en que conjunto se daria la solucion real o compleja
+dependiendo el caso
+
+Interactuar: tener en cuenta las operaciones que se van a realizar, lenguaje, condiciones, atajos, 
+
+evaluacion: Lo mejor es recurrir a diagramas de flujo, analizand las posibles respuestas
+
+
