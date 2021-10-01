@@ -7,16 +7,19 @@
 
 # 1. Declaración de variables iniciales
 
+clear
+
 echo "Bienvenido al menú de ejecución, por favor, seleccione qué programa desea ejecutar."
 echo ""
-echo "----------MENÚ----------"
+echo "                          ----------MENÚ----------"
 echo ""
-echo \ "1. Calculadora."
-echo \ "2. Juego de preguntas."
-echo \ "3. Números felices."
-echo \ "4. Cálculo de raíces."
-echo \ "5. Números capicúas."
-echo \ "0. Salir del programa."
+echo \ "                          1. Calculadora."
+echo \ "                          2. Juego de preguntas."
+echo \ "                          3. Números felices."
+echo \ "                          4. Cálculo de raíces."
+echo \ "                          5. Números capicúas."
+echo \ "                          0. Salir del programa."
+echo ""
 
 si='SI'
 
@@ -123,18 +126,31 @@ then
             read primernum
             echo -n "Por favor, escriba el segundo número: "
             read segundonum
-            resultado=$(echo "scale=5; $primernum / $segundonum" | bc -l)
+            resto=$(echo "scale=0; $primernum % $segundonum" | bc -l)
 
             echo ""
             echo "Calculando... por favor, espere..."
             echo ""
             sleep 5
 
-            echo "El resultado es: $resultado"
+            if [ "$resto" == "0" ]
+            then
+                resultado=$(echo "scale=0; $primernum / $segundonum" | bc -l)
+                echo "El resultado es: $resultado"
+            else
+                resultado=$(echo "scale=5; $primernum / $segundonum" | bc -l)
+                resultado_esp=$(echo "scale=0; $primernum / $segundonum" | bc -l)
+                echo "La división no es exacta, a continuación la división en entero con su residuo:"
+                echo \ "Número entero: $resultado_esp"
+                echo \ "Residuo de la división: $resto"
+                echo \ "Representación decimal: $resultado"
+            fi
 
             unset primernum
             unset segundonum
             unset resultado
+            unset resultado_esp
+            unset resto
         else
             echo ""
             echo "Disculpe, no comprendemos el carácter que registró"
@@ -550,5 +566,71 @@ then
     echo "Saliendo del programa..."
     sleep 5
     exit 0
+elif [ $menu -eq 3 ]
+then
+    clear
+    echo "               Bienvenido al medidor de felicidad numérica"
+    echo "                     ¿Tú número favorito es feliz?"
+    echo ""
+    echo "A continuación se le solicitará el número que desee verificar si es feliz o no"
+    echo -n "Número a verificar: "
+    read num
+    let num_feliz=${num}
+
+    echo ""
+    echo "Verificando... esto puede tardar un poco..."
+    echo ""
+
+    let w=0
+
+    while [ $w -le 50 ]
+    do
+        cant_cifras=$(echo $num_feliz | wc -L)
+
+        if [ $num_feliz -eq 1 ]
+        then
+            sleep 3
+            echo \ "¡Enhorabuena, el número $num es feliz!"
+            echo ""
+            echo "Gracias por usar nuestro programa, vuelva pronto..."
+            echo ""
+            echo "Saliendo..."
+            sleep 3
+            exit 0
+        elif [ "$cant_cifras" != "0" ]
+        then
+            cadena=${num_feliz}
+            let historial=0
+            let i=0
+            let c=${cant_cifras}
+
+            while [ $c -gt 0 ]
+            do
+                numcifra=${cadena:$i:1}
+                ((i++))
+
+                let cuadrado=$(echo "scale=0; $numcifra * $numcifra" | bc -l)
+                let num_feliz=$(echo "scale=0; $historial + $cuadrado" | bc -l)
+                let historial=${num_feliz}
+                let cuadrado=0
+
+                ((c--))
+            done
+        fi
+
+        ((w++))
+
+    done
+
+    if [ $num_feliz -ne 1 ]
+    then
+        echo \ "Lo sentimos, el número $num no es feliz"
+        echo ""
+        echo "Gracias por usar nuestro programa, vuelva pronto..."
+        echo ""
+        echo "Saliendo..."
+        sleep 3
+        exit 0
+    fi
 
 fi
