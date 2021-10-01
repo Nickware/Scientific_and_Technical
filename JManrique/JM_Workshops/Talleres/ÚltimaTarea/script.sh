@@ -632,5 +632,101 @@ then
         sleep 3
         exit 0
     fi
+elif [ $menu -eq 4 ]
+then
+    exit 0
+elif [ $menu -eq 5 ]
+then
+    clear
+    echo "                          Bienvenido al capicuinador"
+    echo ""
+    echo "A continuación, se le solicitará el número que desea verificar si es capicúa o no"
+    echo -n "Número a verificar: "
+    read num
 
+    echo ""
+    echo "Verificando..."
+    echo ""
+    sleep 5
+
+    let cant_cifras=$(echo $num | wc -L)
+    let div=$(echo "scale=0; $cant_cifras / 2" | bc -l)
+    resto=$(echo "scale=0; $cant_cifras % 2" | bc -l)
+
+    if [ "$resto" == "0" ]
+    then
+        val1=${num:0:$div}
+        if [ $cant_cifras -gt 3 ]
+        then
+            let w=0
+            let i=${div}
+            val2=
+            while [ $w -lt $div ]
+            do
+                val_esp=${num:$i:1}
+                ((i++))
+
+                val_fin="$val_esp$val2"
+                val2=${val_fin}
+
+                ((w++))
+            done
+        else
+            val2=${num:0:$div}
+        fi
+    else
+        val1=${num:0:$div}
+        if [ $cant_cifras -gt 3 ]
+        then
+            let w=0
+            let i=$(echo "scale=0; $div + 1" | bc -l)
+            val2=
+            while [ $w -lt $div ]
+            do
+                val_esp=${num:$i:1}
+                ((i++))
+
+                val_fin="$val_esp$val2"
+                val2=${val_fin}
+
+                ((w++))
+            done
+        else
+            ((div++))
+            val2=${num:$div:$div}
+        fi
+    fi
+
+    if [ "$val1" == "$val2" ]
+    then
+        echo "El número $num es capicúa"
+        echo ""
+        echo "Gracias por usar nuestro programa, vuelva pronto..."
+        echo ""
+        echo "Saliendo..."
+        sleep 3
+        exit 0
+    else
+        echo "El número $num no es capicúa"
+        echo ""
+        echo "Gracias por usar nuestro programa, vuelva pronto..."
+        echo ""
+        echo "Saliendo..."
+        sleep 3
+        exit 0
+    fi
+elif [ $menu -eq 0 ]
+then
+    echo ""
+    echo "Saliendo del programa..."
+    sleep 5
+    clear
+    exit 0
+else
+    echo ""
+    echo "Disculpe, el carácter que colocó no coincide, por favor, vuelva a intentarlo"
+    echo ""
+    echo "Reiniciando..."
+    sleep 2
+    bash $0
 fi
