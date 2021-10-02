@@ -1,11 +1,11 @@
 #!/usr/bin/bash.exe
 
 # Title: Última Tarea
-# Author: Juan Sebastian Manrique Moreno
+# Authors: Juan Sebastian Manrique Moreno, Manuel Augusto Marronquín Torres
 # Date: 30/09/2021
 # Version: 4.4.12(3)-release (x86_64-unknown-cygwin)
 
-# 1. Declaración de variables iniciales
+# 1. Declaración del menú y toma de decisión
 
 clear
 
@@ -21,14 +21,20 @@ echo \ "                          5. Números capicúas."
 echo \ "                          0. Salir del programa."
 echo ""
 
-si='SI'
-
 echo -n "Escriba a continuación el número del programa a ejecutar: "
 read
 let menu=$REPLY
 
+# 2. Calculadora.
+#   El programa le pregunta al usuario que operación desea realizar y por medio de un condicional 'if' filtra esa respuesta
+#   para posteriormente ejecutar dicha operación, a la hora de ejecutar esa operación le pide siempre dos números para operar,
+#   luego da el resultado y pregunta si quiere operar algo más, si es así reejecuta el programa, si no, sale del programa en general.
+
 if [ $menu -eq 1 ]
 then
+
+    si='SI'
+
     while [ $menu -eq 1 ] || [ "$ejecucion" == "$si" ]
     do
         clear
@@ -171,12 +177,18 @@ then
             exit 0
         fi
     done
+# 3. Juego de preguntas.
+#   Este programa le realiza 10 preguntas al usuario y va guardando las respuestas en una variable independiente para cada pregunta,
+#   luego de ello filtra las respuestas para saber si son correctas o incorrectas, si son correctas ejecuta un contador, para que por
+#   cada respuesta correcta sume 1 a ese contador, así el valor final de ese contador es el que define si es o no un Gran Sabio, si la
+#   respuesta es incorrecta, no suma el contador e indica cuál es la respuesta correcta, además, para cada respuesta, ya sea correcta
+#   o incorrecta, se colocó debajo una pequeña curiosidad estilo "¿Sabías qué?", para informar un poco más al usuario.
 elif [ $menu -eq 2 ]
 then
     clear
     echo "                                  Bienvenido al juego de preguntas"
     echo "                A continuación usted deberá responder 10 preguntas de cultura general"
-    echo "   Si responde más del 75% bien, será condecorado cómo Gran Sabio, si no, puede intentarlo nuevamente"
+    echo "   Si tiene 7 o más aciertos, será condecorado cómo Gran Sabio, si no, puede intentarlo nuevamente"
     echo "Las respuestas correctas junto a las preguntas que respondió bien, estarán al final en un resumen detallado"
     echo ""
     echo "            ------------------------------¡Mucha suerte!------------------------------"
@@ -184,7 +196,7 @@ then
 
     let resco=0
 
-    echo "1. ¿Cuál es el río más largo del mundo?"
+    echo "1. ¿Cuál es el río más caudaloso del mundo?"
     echo \ "A. El Nilo."
     echo \ "B. El Tigris."
     echo \ "C. El Amazonas."
@@ -522,9 +534,8 @@ then
         echo ""
     fi
 
-    echo "Calculando el porcentaje de aciertos..."
+    echo "Calculando la cantidad de aciertos..."
     sleep 5
-    respor=$(echo "scale=2; ($resco / 10) * 100" | bc -l)
     echo ""
 
     echo "Y el resultado es... (redoble de tambores)"
@@ -532,13 +543,13 @@ then
 
     echo ""
 
-    if [ ${respor%%.*} -eq 100 ]
+    if [ $resco -eq 10 ]
     then
         echo "¡Felicidades!, todas sus respuestas fueron correctas"
         echo "Me complace condecorarlo como Gran Sabio"
         echo ""
         echo "Gracias por participar, vuelva pronto..."
-    elif [ ${respor%%.*} -lt 100 ] && [ ${respor%%.*} -ge 75 ]
+    elif [ $resco -lt 10 ] && [ $resco -ge 7 ]
     then
         echo "¡Felicidades!, ha sido condecorado como Gran Sabio"
         echo ""
@@ -566,6 +577,15 @@ then
     echo "Saliendo del programa..."
     sleep 5
     exit 0
+# 4. Números felices.
+#   Este programa le solicita al usuario que inserte un número, con ayuda del comando 'wc -L' se obtiene la cantidad de dígitos o
+#   caracteres que contenga el número, con esa cantida de cifras se genera un ciclo 'While' para extraer cada cifra y multiplicarla
+#   por ella misma, es decir, elevarla al cuadrado, luego de ello ese resultado se guarda en una variable y se va sumando con el
+#   resultado anterior, así hasta cerrar el ciclo que está sujeto a la cantidad de cifras que tiene el número, luego se obtiene otro
+#   número, si este número es igual a 1, se termina el programa y el número es feliz, si no, se vuelve a ejecutar el programa hasta
+#   máximo de 50 veces, si en ningún momento llega a 1, el programa deja de ejecutarse tras pasar esos 50 intentos y arroja que dicho
+#   número no es feliz y sale del programa, para todo ello, además de haber usado el ciclo 'While' y el comando 'wc -L', también se 
+#   usaron los comandos 'if/elif/else', 'bc -l' y el manejo de una cadena de texto como un array (arreglo).
 elif [ $menu -eq 3 ]
 then
     clear
@@ -632,6 +652,17 @@ then
         sleep 3
         exit 0
     fi
+# 5. Cálculo de raíces.
+#   El programa le explica brevemente al usuario como es la extructura de la ecuación a la cuál se le obtendrá su raíz, en este
+#   caso es la fórmula general de la cuadrática, o ecuación de segundo grado/orden. Se le piden los datos de A, B y C al usuario
+#   los cuáles son guardados en variables independientes y posteriormente operados entre sí para hallar el discriminante, luego
+#   con un sencillo condicional de 'if/elif/else' que funciona como filtrador de la respuesta, se clasifica si tiene una o más
+#   soluciones reales o si tiene solución compleja, en el caso de que tenga solución compleja, sencillamente no sigue con el
+#   programa y manda error inmediato junto a la terminación del mismo, en cambio, si tiene soluciones reales, manda un mensaje
+#   indicando eso, a lo que en el caso de tener dos soluciones reales, obtiene la raíz del discriminante y opera siguiendo la
+#   fórmula de la cuadrática, y en el caso de tener solo una solución real, solo opera el resto de la cuadrática sin tener en cuenta
+#   el valor de la raíz del discriminante, al final, arroja los valores y termina el programa. Para todo ello se usó solamente el
+#   operador 'if/elif/else' y los comandos incluidos en 'bc'.
 elif [ $menu -eq 4 ]
 then
     clear
@@ -714,6 +745,21 @@ then
         sleep 3
         exit 0
     fi
+# 6. Números capicúas.
+#   El programa le pide al usuario un número para verificar si es o no capicúa, luego de ello, se extrae la cantidad de cifras que
+#   tiene ese número, igualmente con el comando 'wc -L' tal cual como ya se vio previamente, ya teniendo la cantidad de cifras se
+#   procede a dividirlas entre 2, esto con el fin de poder tener la mitad de ellas y luego realizar el filtrado para poder comparar,
+#   con ayuda del módulo resto, se obtiene el residuo de la división para que con ello se pueda saber si la cantidad de cifras es un
+#   número par o impar. Ya después de todo el procedimiento de filtrado anterior, y con ayuda del condicional 'if/elif/else' se realiza
+#   filtrado de la siguiente manera: si la cantidad de cifras es mayor que 3, el proceso de extracción de cifras para la próxima
+#   comparación y definir si es o no un número capicúa, se debe hacer dentro de un ciclo 'While', ciclo que está sujeto a la mitad de la
+#   cantidad de cifras que tiene el número, luego se concatenan dos cadenas de texto, una con la última cifra extraída y otra con un
+#   historial de las concatenaciones previas, esto con el fin de poder tomar la segunda parte del número y darle la vuelta, para que, por
+#   así decirlo se pueda leer el número en vez de izquierda a derecha, se lea de derecha a izquierda; ese ciclo se cumple con todas las
+#   cifras, hasta obtener el segundo valor a comparar, esto por el lado de los número pares, en el caso de los números impares, solamente
+#   hay que sumar 1 a la variable que contiene el valor de la división de la cantidad de cifras a la hora de hallar el segundo valor. Ya
+#   para terminar, se realiza una comparación, dónde si el valor 1 y el valor 2 son iguales, es un número capicúa, si no son iguales, no
+#   es un número capicúa, claramente. Cabe resaltar que para este programa también se utilizó la lista de comandos de 'bc'.
 elif [ $menu -eq 5 ]
 then
     clear
@@ -794,6 +840,8 @@ then
         sleep 3
         exit 0
     fi
+# 7. Salir del programa.
+#   En este caso, es solo un filtro en respuesta a la opción 0, la cuál indica salir y terminar el programa por completo.
 elif [ $menu -eq 0 ]
 then
     echo ""
@@ -801,6 +849,9 @@ then
     sleep 5
     clear
     exit 0
+# 8. Caracter incorrecto y/o inválido
+#   En este caso, si el usuario a la hora de ejecutar el programa, no coloca un caracter que esté contenido dentro del menú para
+#   su elección, se le informará el error y reejecutará el programa hasta que la persona indique el valor 0, es decir, salir del programa.
 else
     echo ""
     echo "Disculpe, el carácter que colocó no coincide, por favor, vuelva a intentarlo"
