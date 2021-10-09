@@ -99,3 +99,9 @@ fi
 
 
 echo "ERES TODO UN MAESTRO DE LA ASTROFISICA $nombre FELICITACIONES"
+
+
+
+
+
+
