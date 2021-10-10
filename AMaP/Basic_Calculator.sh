@@ -1,6 +1,6 @@
 #!/bin/bash
 #Basic Calculator
-#Pablo Patiño
+#Pablo Patiño, Maria Moreno, Andrés Gómez
 #06102021
 
 # two variable calculator

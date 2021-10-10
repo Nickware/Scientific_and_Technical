@@ -1,5 +1,5 @@
 #!/bin/bash 
-#Author: Maria Moreno
+#Authors: Pablo Patiño, Maria Moreno, Andrés Gómez
 #Date: 21-10-10
 #Version_ 0.0.1
 
