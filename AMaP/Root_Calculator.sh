@@ -3,9 +3,8 @@
 #Authors: Pablo Patiño, Maria Moreno, Andrés Gómez.
 #Version: 0.0.1
 #Date: 10/10/2021
-#Itroduce the program.
 
-echo "This is a roots calculator for quadratic equations of the form ax^2+bx+c=0."
+echo "This is a roots calculator for quadratic equations of the form ax^2+bx+c=0." #Itroduce the program. 
 
 echo -en "Introduce the value for a: "$a #Give <a> a value
 
