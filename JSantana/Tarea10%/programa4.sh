@@ -5,11 +5,11 @@
 
 
 echo "programa que calcula raices de un trinomio cuadrado perfecto AX^2+BX+C=0 "
-echo -e "ingrese el termino A"
+echo -e "Ingrese el termino A"
 read varA
-echo -e "ingrese el termino B"
+echo -e "Ingrese el termino B"
 read VarB
-echo -e "ingrese el termino C"
+echo -e "Ingrese el termino C"
 read VarC
 
 B2=$(echo "$VarB^2" | bc -l)
