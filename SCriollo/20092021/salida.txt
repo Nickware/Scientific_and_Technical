@@ -1,0 +1,10 @@
+Su nombre es: Santiago
+Su ubicación es: /home/Santiago/Elementos_computacionales/SCriollo/20092021
+Los permisos asociados de la carpeta [C[C[C[C[20092021 son: 
+total 9
+drwxr-xr-x+ 1 Santiago Ninguno    0 sep. 27 13:24 .
+drwxr-xr-x+ 1 Santiago Ninguno    0 sep. 27 11:28 ..
+-rw-r--r--  1 Santiago Ninguno  743 sep. 27 13:25 20202107022.run
+-rw-r--r--  1 Santiago Ninguno 2444 sep. 27 13:24 HolaBash-Solution.sh
+-rw-r--r--  1 Santiago Ninguno  166 sep. 27 13:25 salida.txt
+El nombre de este archivo es:  HolaBash-Solution.sh

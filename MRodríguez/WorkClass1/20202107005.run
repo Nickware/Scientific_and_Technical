@@ -1,0 +1,23 @@
+echo Deleting files .txt
+echo Deleting files .txt
+echo Deleting files .txt
+echo Deleting files .txt
+echo -n Give me your name: 
+echo Deleting files .txt
+echo -n Give me your name: 
+read name
+echo Deleting files .txt
+echo -n Give me your name: 
+read name
+echo Deleting files .txt
+echo -n Give me your name: 
+read name
+echo Thanks, you entered the name rf >> output.txt
+echo Deleting files .txt
+echo -n Give me your name: 
+read name
+echo Thanks, you entered the name ed >> output.txt
+echo Deleting files .txt
+echo -n Give me your name: 
+read name
+echo Thanks, you entered the name j >> output.txt
