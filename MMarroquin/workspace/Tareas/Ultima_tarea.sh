@@ -797,7 +797,7 @@ then
                 ((w++))
             done
         else
-            val2=${num:$div:$div}
+            val2=${num:0:$div}
         fi
     else
         val1=${num:0:$div}

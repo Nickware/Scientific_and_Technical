@@ -161,7 +161,7 @@ case $menu in
     #do
        # chrbin $bin | tr -d '\n'
     #done
-}
+
             ;;
         3) clear 
             echo "Vas a salir" 

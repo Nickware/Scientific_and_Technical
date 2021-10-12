@@ -15,7 +15,7 @@
 pi=$(echo "scale=10; 4*a(1)" | bc -l)
 
 #Interaccion usuario
-echo "Programa que calcula el volumen de un cilindro"
+echo "Programa que calcula el área y el volumen de un cilindro"
 echo "Las unidades son SI"
 echo -e "Ingrese el radio: "
 read radio
