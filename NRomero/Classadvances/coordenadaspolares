@@ -1,0 +1,42 @@
+#12/OCT/2021
+#Julian, Marcos, Norman
+#version 0.001
+#busque en internet como utilizar el seno y el coseno, recoendaban awk se ve interesante, usare bc. No sabia como poner el angulo en radianes, en la pagina https://www.geeksforgeeks.org/bc-command-linux-examples/ mostraban algo similar a lo explicado en clase, hay que definir pi para despues llamarlo.
+echo -e "Welcome to this program of conversion from Polar coordinates to Rectangular coordinates\n"
+echo "Please write down the value of r that you want to assign"
+pi=`echo "h=10;4*a(1)" | bc -l`
+read "r"
+echo -e "\n"
+echo "Please, Write down 1 if you have a grade angle, If you instead have a radian angle write 2"
+read "a"
+if [ "$a" == 1 ]
+then
+echo "write down the angle"
+read o 
+an=$o/180
+echo "The value of X is"
+echo "$r*c($an*$pi)" | bc -l
+echo -e "\n"
+echo "The value of Y is"
+echo -e "$r*s($an*$pi)\n" | bc -l
+fi
+if [ "$a" == 2 ]
+then
+echo -e "Write down the fraction without the pi (Ex:3/4)\n"
+read j
+echo "The value of X is"
+echo "$r*c($j*$pi)" | bc -l
+echo -e "\n"
+echo "The value of Y is"
+echo "$r*s($j*$pi)" | bc -l
+fi
+#echo -e "Do you want to do another conversion? write Y/N/n"
+#read f
+#if [ $f == Y ]
+#then
+
+
+
+
+
+
