@@ -5,7 +5,7 @@
 
 #Introduction to the game
 echo "Welcome to the QandA Game. Do you think you will reach the master level?"
-echo "Let´s start with the game. There are a serie of five questions, answer them right with the letters A, B, C and D and I will give you the master level"
+echo "Let´s start with the game. There are a serie of five questions, answer them right with the letters A, B, C and D and I will give you the master level if you get 4 or 5 questions right"
 counter=0 #a counter let increase value depending what values we can associated it
 
 echo "Well, get ready"
