@@ -7,29 +7,51 @@
 
 while true
 do
-    echo -n "ingrese el primer valor del rango a calcular: "
+    clear
+    echo "        Bienvenido a la calculadora de potencias"
+    echo "A continuación, se le solicitará el rango de números a operar"
+    echo ""
+    echo -n "Ingrese el primer valor del rango a calcular: "
     read primero
     let primero=${primero} 
-    echo -n "ingrese el segundo valor del rango a calcular: "
+    echo -n "Ingrese el segundo valor del rango a calcular: "
     read segundo
     let segundo=${segundo}
-    if [ $primero -lt $segundo ] # -lt menor que en números 
+
+    if [ $primero -lt $segundo ]
     then
-        echo "Numero  Cuadrado Cubo  Cuarta"
-        let i=${primero} # con let decimos que la variable i es un numero entero
-        while [ $i -le $segundo ] # -le menor o igual que en comparación de números
+        echo ""
+        echo "Calculando..."
+        sleep 5
+        echo ""
+
+        echo "======================================================"
+        echo "Numero          Cuadrado        Cubo            Cuarta"
+        echo ""
+        let i=${primero}
+
+        while [ $i -le $segundo ]
         do
-            let "power2 = i*i" 
-            let "power3 = i*i*i"
-            let "power4 = i*i*i*i"
-            echo -e "${i} \t $power2 \t $power3 \t $power4" # -e para validar los espcios entre columnas
+            let power2=($i*$i) 
+            let power3=($i*$i*$i)
+            let power4=($i*$i*$i*$i)
+            echo -e " ${i} \t\t $power2 \t\t $power3 \t\t $power4"
             ((i++))
         done
+
+        echo "======================================================"
+
+        echo ""
+        echo "Gracias por ejecutar nuestro programa, vuelva pronto."
+        echo ""
+        echo "Saliendo..."
+        sleep 3
         exit 0
     else
         echo ""
-        echo "rango de valores invalido, ingreselos nuevamente"
+        echo "Rango de valores invalido, ingreselos nuevamente"
         echo ""
+        echo "Reejecutando..."
+        sleep 5
     fi
-    
 done

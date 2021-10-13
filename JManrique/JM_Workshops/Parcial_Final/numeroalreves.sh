@@ -13,7 +13,7 @@ echo -n "Número a invertir: "
 read num
 
 echo ""
-echo "Verificando..."
+echo "Invirtiendo..."
 echo ""
 sleep 5
 

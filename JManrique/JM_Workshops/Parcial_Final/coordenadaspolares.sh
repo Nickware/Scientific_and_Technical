@@ -22,6 +22,7 @@ do
 
     if [ "$conversion" == "1" ]
     then
+        echo ""
         echo "A continuación, digite los valores de 'x' y 'y' que desea convertir"
         echo -n "Valor de 'x': "
         read val_x
@@ -47,20 +48,23 @@ do
         exit 0
     elif [ "$conversion" == "2" ]
     then
+        echo ""
         echo "A continuación, digite los valores de 'r' y 'theta' que desea convertir"
         echo -n "Valor de 'r': "
         read val_r
 
         while true
         do
+            echo ""
             echo -n "Previamente, indique si theta está en radianes (r) o en grados (g), para ello digite la letra que corresponda: "
             read
             type=${REPLY^^}
-            echo -n "Valor de 'theta': "
-            read val_theta
 
             if [ "$type" == "R" ]
             then
+                echo -n "Valor de 'theta': "
+                read val_theta
+
                 val_x=$(echo "scale=5; $val_r * c($val_theta)" | bc -l)
                 val_y=$(echo "scale=5; $val_r * s($val_theta)" | bc -l)
 
@@ -80,6 +84,9 @@ do
                 exit 0
             elif [ "$type" == "G" ]
             then
+                echo -n "Valor de 'theta': "
+                read val_theta
+
                 pi=$(echo "scale=5; 4*a(1)" | bc -l)
                 rad=$(echo "scale=5; ($val_theta / 180) * $pi" | bc -l)
 
