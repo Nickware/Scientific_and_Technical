@@ -14,20 +14,20 @@ then
 echo "write down the angle"
 read o 
 an=$o/180
-echo "The value of X is"
+echo -n "X="
 echo "$r*c($an*$pi)" | bc -l
 echo -e "\n"
-echo "The value of Y is"
-echo -e "$r*s($an*$pi)\n" | bc -l
+echo -n "Y="
+echo "$r*s($an*$pi)" | bc -l
 fi
 if [ "$a" == 2 ]
 then
 echo -e "Write down the fraction without the pi (Ex:3/4)\n"
 read j
-echo "The value of X is"
+echo -n "X"
 echo "$r*c($j*$pi)" | bc -l
 echo -e "\n"
-echo "The value of Y is"
+echo -n "Y="
 echo "$r*s($j*$pi)" | bc -l
 fi
 #echo -e "Do you want to do another conversion? write Y/N/n"
