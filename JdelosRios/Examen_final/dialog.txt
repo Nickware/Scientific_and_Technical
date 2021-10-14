@@ -1,0 +1,13 @@
+Instalación de dialog
+Para poder utilizar esta herramienta en linux lo primero que has de hacer es instalarla
+
+Ubuntu
+sudo apt-get install dialog
+
+Debian
+apt-get install dialog
+
+Red hat
+yum install dialog
+
+
