@@ -153,10 +153,10 @@ echo
 echo "                           ¿Cuántas notas musicales existen?"
 echo
 echo
-echo "  a) 10"
+echo "  a) 7"
 echo "  b) 6"
 echo "  c) 8"
-echo "  d) 12"
+echo "  d) 10"
 echo
 echo
 read pregunta5
@@ -170,7 +170,7 @@ if [[ $pregunta5 = $respuesta5 ]]; then
         
      else
      echo
-        echo "              la respuesta es incorrecta, la respuesta es: a) 10."
+        echo "              la respuesta es incorrecta, la respuesta es: a) 7."
         echo 
         echo 
         sleep 3
