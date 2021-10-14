@@ -23,3 +23,4 @@ echo "Su palabra o numero al reves es:"
 sleep 2
 echo "$rev" | rev
 exit
+
