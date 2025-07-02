@@ -1,14 +1,26 @@
-echo "Iniciando git"
+#!/bin/bash
+
+echo "Inicializando repositorio Git (si no existe)..."
 git init
-echo "Verificando actualizaciones del repositorio"
-git pull
-echo "Verificando estado de la carpeta"
+
+echo "Actualizando desde el remoto (si está configurado)..."
+git pull origin main 2>/dev/null
+
+echo "Estado actual del repositorio:"
 git status
-echo "Agreando archivos "
+
+echo "Agregando todos los archivos al área de preparación..."
 git add -A
-echo "Ingreseando comentarios"
-echo "Debe ingresarse de la manera: git commit -m "Comentario""
-read commit
-$commit 
-#Se puede personalizar de la forma: git push https://<tocken>/nickware/nickware/Elementos_computacionales.git <branch>
+
+# Verificar si hay cambios para confirmar
+if git diff --cached --quiet; then
+    echo "No hay cambios para confirmar."
+else
+    read -p "Ingrese el mensaje para el commit: " mensaje
+    git commit -m "$mensaje"
+fi
+
+echo "Subiendo los cambios a la rama 'main' en el remoto 'origin'..."
 git push origin main
+
+echo "Operación completada."
