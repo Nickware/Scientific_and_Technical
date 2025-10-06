@@ -15,7 +15,7 @@ Esta guía ayudará a configurar y utilizar **GDB (GNU Debugger)** para depurar 
 
 ## Paso 1: Instalar GDB
 
-Abrir una terminal y ejecuta:
+Abrir una terminal y ejecutar:
 
 ```bash
 # En sistemas basados en Debian/Ubuntu
@@ -73,10 +73,10 @@ Una vez dentro de GDB, se puede usar los siguientes comandos:
 
 | Comando                      | Descripción                                           |
 | ---------------------------- | ----------------------------------------------------- |
-| `run` o `r`                  | Ejecuta el programa                                   |
-| `break <línea>` o `b main`   | Establece un breakpoint (ej. `b 10` o `b funcion`)    |
-| `next` o `n`                 | Ejecuta la siguiente línea (sin entrar en funciones)  |
-| `step` o `s`                 | Ejecuta la siguiente línea (entrando en funciones)    |
+| `run` o `r`                  | Ejecutar el programa                                  |
+| `break <línea>` o `b main`   | Establecer un breakpoint (ej. `b 10` o `b funcion`)   |
+| `next` o `n`                 | Ejecutar la siguiente línea (sin entrar en funciones) |
+| `step` o `s`                 | Ejecutar la siguiente línea (entrando en funciones)   |
 | `print <variable>` o `p var` | Muestra el valor de una variable                      |
 | `continue` o `c`             | Continúa la ejecución hasta el siguiente breakpoint   |
 | `list` o `l`                 | Muestra el código fuente alrededor de la línea actual |
