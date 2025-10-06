@@ -1,6 +1,7 @@
 # Comandos Básicos Git
 
-**Secuencia de comandos en la terminal para trabajar con Git**,. GitHub es el sistema de control de versiones más usado en desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
+**Secuencia de comandos en la terminal para trabajar con Git**,. 
+GitHub es el sistema de control de versiones más usado en el desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
 
 ***
 
@@ -102,7 +103,7 @@ git fetch origin
 
 ***
 
-✅ **En resumen:**
+**En resumen:**
 Este script es una “chuleta” de comandos básicos de Git:
 
 - Creación y clonación de repositorios
