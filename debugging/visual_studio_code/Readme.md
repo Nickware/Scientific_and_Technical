@@ -1,6 +1,6 @@
 # Configuración de Debugging con GDB en Visual Studio Code (Linux)
 
-Esta guía te ayudará a configurar el entorno de depuración en **Visual Studio Code** usando **GDB** para programas escritos en **C o C++** en sistemas **Linux**.
+Esta guía le ayudará a configurar el entorno de depuración en **Visual Studio Code** usando **GDB** para programas escritos en **C o C++** en sistemas **Linux**.
 
 ---
 
