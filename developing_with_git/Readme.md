@@ -1,6 +1,6 @@
 # Comandos Básicos Git
 
-**Secuencia de comandos en la terminal para trabajar con Git**,. 
+**Secuencia de comandos en la terminal para trabajar con Git**.
 GitHub es el sistema de control de versiones más usado en el desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
 
 ***
@@ -13,9 +13,9 @@ cd test_repo
 git clone <url>
 ```
 
-- `git init test_repo`: Crea un nuevo repositorio Git vacío en la carpeta `test_repo`.
-- `cd test_repo`: Entra a la carpeta del repositorio.
-- `git clone <url>`: Clona un repositorio remoto existente en tu máquina (descarga todo el historial de commits, ramas, etc.).
+- `git init test_repo`: Crear un nuevo repositorio Git vacío en la carpeta `test_repo`.
+- `cd test_repo`: Entrar a la carpeta del repositorio.
+- `git clone <url>`: Clonar un repositorio remoto existente en tu máquina (descargar todo el historial de commits, ramas, etc.).
 
 ***
 
@@ -28,9 +28,9 @@ git commit -m "add new_file.txt"
 git status
 ```
 
-- `touch new_file.txt`: Crea un archivo vacío llamado `new_file.txt`.
-- `git add new_file.txt`: Añade ese archivo al área de preparación (staging).
-- `git commit -m "add new_file.txt"`: Registra el cambio en el historial de Git con un mensaje de commit.
+- `touch new_file.txt`: Crear un archivo vacío llamado `new_file.txt`.
+- `git add new_file.txt`: Añadir ese archivo al área de preparación (staging).
+- `git commit -m "add new_file.txt"`: Registrar el cambio en el historial de Git con un mensaje de commit.
 - `git status`: Muestra el estado del repositorio (archivos modificados, en staging, etc.).
 
 ***
@@ -84,9 +84,9 @@ git commit -m "remove b.txt"
 git log -- b.txt
 ```
 
-- `rm b.txt`: Borra el archivo `b.txt` en el sistema de archivos.
-- `git add . -A`: Registra la eliminación en el área de staging.
-- `git commit -m "remove b.txt"`: Guarda el cambio eliminando ese archivo.
+- `rm b.txt`: Borrar el archivo `b.txt` en el sistema de archivos.
+- `git add . -A`: Registrar la eliminación en el área de staging.
+- `git commit -m "remove b.txt"`: Guardar el cambio eliminando ese archivo.
 - `git log -- b.txt`: Muestra el historial de commits relacionados con ese archivo, incluso si ya fue borrado.
 
 ***
@@ -98,8 +98,8 @@ git push origin main
 git fetch origin
 ```
 
-- `git push origin main`: Sube los commits locales a la rama `main` del repositorio remoto.
-- `git fetch origin`: Descarga la información más reciente del repositorio remoto, pero no la integra todavía (para eso se usa `git pull`, que es `fetch + merge`).
+- `git push origin main`: Subir los commits locales a la rama `main` del repositorio remoto.
+- `git fetch origin`: Descargar la información más reciente del repositorio remoto, pero no la integra todavía (para eso se usa `git pull`, que es `fetch + merge`).
 
 ***
 
@@ -108,7 +108,7 @@ Este script es una “chuleta” de comandos básicos de Git:
 
 - Creación y clonación de repositorios
 - Manejo de archivos y commits
-- Consulta de historial y diferencias
+- Consultar de historial y diferencias
 - Trabajo con ramas y fusiones
 - Sincronización con repositorios remotos
 
