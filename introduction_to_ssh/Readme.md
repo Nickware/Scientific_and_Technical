@@ -107,7 +107,7 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 
 # Verificar que se crearon las claves
 ls -la ~/.ssh/
-# Debes ver: id_rsa (clave privada) y id_rsa.pub (clave pública)
+# Debería ver: id_rsa (clave privada) y id_rsa.pub (clave pública)
 ```
 
 ---
