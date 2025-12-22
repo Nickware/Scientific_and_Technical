@@ -1,19 +1,19 @@
 # Clúster de cálculo paralelo con Quantum ESPRESSO (QE). 
 
-Se tiene una configuración potente y perfectamente adecuada para crear un clúster de cálculo paralelo con Quantum ESPRESSO (QE). Al unir los 4 equipos, puede ejecutar cálculos que se distribuyan entre todos los procesadores (20 núcleos + 16 hilos de eficiencia por i5-14500, lo que hace un total de 144 hilos de procesamiento).
+Si se tiene una configuración adecuada para crear un clúster de cálculo paralelo con Quantum ESPRESSO (QE). Al unir (por ejemplo, 4 equipos), se puede ejecutar cálculos que se distribuyan entre todos los procesadores (20 núcleos + 16 hilos de eficiencia por i5-14500, lo que hace un total de 144 hilos de procesamiento).
 
 Aquí se presenta una guía paso a paso para configurar su "mini-clúster" casero.
 
 ### Visión General del Proceso
 
-El objetivo es que un equipo actúe como **"Maestro"** (desde donde se envían los trabajos) y los cuatro (incluyendo al maestro) actúen como **"Nodos de Cálculo"**. Utilizaremos `MPI (Message Passing Interface)` para la comunicación entre nodos y un sistema de archivos compartido (via `SSH`) para que todos los nodos accedan a los mismos archivos de pseudopotenciales y de entrada.
+El objetivo es que un equipo actúe como **"Maestro"** (desde donde se envían los trabajos) y los cuatro (incluyendo al maestro) actúen como **"Nodos de Cálculo"**. Se utilizará `MPI (Message Passing Interface)` para la comunicación entre nodos y un sistema de archivos compartido (vía `SSH`) para que todos los nodos accedan a los mismos archivos de pseudopotenciales y de entrada.
 
 ---
 
 ### Paso 1: Preparación Básica de la Red y los Equipos
 
 #### 1.1. Configuración de Red Zerotier
-Asegúrese de que los 4 equipos están en la misma red Zerotier y pueden **hacer ping entre sí usando sus direcciones IP de Zerotier**.
+Asegurarse de que los 4 equipos están en la misma red y pueden **hacer ping entre sí usando sus direcciones IP**.
 *   En cada terminal, ejecute `ip addr show zt0` (o el nombre de la interfaz que Zerotier haya creado) para ver la IP.
 *   Anote las IPs de cada máquina. Para este ejemplo, usaremos:
     *   **Nodo1 (Maestro):** `10.147.20.10`
@@ -41,7 +41,7 @@ ping nodo2
 #### 1.3. Crear un Usuario Común y Configurar SSH sin Contraseña
 **Esto es crucial para que MPI funcione sin problemas.**
 
-*   **Crear usuario (Opcional, pero recomendable):** Cree un usuario idéntico (ej: `qeuser`) con la misma contraseña en los 4 equipos. O, simplemente, use su usuario actual si es el mismo en todos.
+*   **Crear usuario (Opcional, pero recomendable):** Cree un usuario idéntico (ej.: `qeuser`) con la misma contraseña en los 4 equipos. O, simplemente, use su usuario actual si es el mismo en todos.
 *   **Generar claves SSH en el Maestro (nodo1):**
     
     ```bash
@@ -110,7 +110,7 @@ Solo necesita compilar en **uno de los equipos** (por ejemplo, en `nodo1`) y lue
     ```bash
     ./configure MPIF90=mpif90 FFLAGS="-O2 -fallow-argument-mismatch" --with-scalapack=no
     ```
-    (Nota: `--with-scalapack=no` simplifica la compilación. Puede intentar con Scalapack después).
+    (Nota: `--with-scalapack=no` simplifica la compilación.) Puede intentar con Scalapack después.
 4.  Compile todos los códigos:
     ```bash
     make pw
@@ -146,7 +146,7 @@ Esto le dice a MPI que lance 14 procesos en cada nodo (usando los 14 núcleos f�
 
 ### Paso 5: Ejecutar un Cálculo
 
-¡Todo está listo! Vaya a su carpeta de trabajo compartida en el maestro (`/home/usuario/qe_cluster`) y prepare su archivo de entrada `pw.in`.
+Vaya a su carpeta de trabajo compartida en el maestro (`/home/usuario/qe_cluster`) y prepare su archivo de entrada `pw.in`.
 
 Para ejecutar `pw.x` usando los 4 equipos, use el siguiente comando:
 
@@ -164,7 +164,7 @@ mpirun -np 56 --hostfile machines /home/usuario/qe-7.2/bin/pw.x -i pw.in > pw.ou
 
 ### Resumen y Verificación
 
-1.  **Red:** Zerotier funcionando, `ping` entre nodos por nombre.
+1.  **Red:** Zerotier (o la que esté usando) funcionando, `ping` entre nodos por nombre.
 2.  **SSH:** Conexión sin contraseña del maestro a todos los nodos.
 3.  **Archivos:** Carpeta de trabajo del maestro montada en los esclavos (SSHFS).
 4.  **Software:** MPI y QE instalados y compilados, ejecutables en la misma ruta en todos los nodos.
