@@ -1,7 +1,6 @@
-# Comandos Básicos Git
+# Secuencia de comandos en la terminal para trabajar con Git
 
-**Secuencia de comandos en la terminal para trabajar con Git**.
-GitHub es el sistema de control de versiones más usado en el desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
+GitHub es el sistema de control de versiones más utilizado en el desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
 
 ***
 
@@ -14,7 +13,7 @@ git clone <url>
 ```
 
 - `git init test_repo`: Crear un nuevo repositorio Git vacío en la carpeta `test_repo`.
-- `cd test_repo`: Entrar a la carpeta del repositorio.
+- `cd test_repo`: Acceder a la carpeta del repositorio.
 - `git clone <url>`: Clonar un repositorio remoto existente en tu máquina (descargar todo el historial de commits, ramas, etc.).
 
 ***
@@ -104,7 +103,7 @@ git fetch origin
 ***
 
 **En resumen:**
-Este script es una “chuleta” de comandos básicos de Git:
+Este readme es una glosario de comandos básicos de Git:
 
 - Creación y clonación de repositorios
 - Manejo de archivos y commits
