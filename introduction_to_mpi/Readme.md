@@ -2,7 +2,7 @@
 
 Si se tiene una configuración adecuada para crear un clúster de cálculo paralelo con Quantum ESPRESSO (QE). Al unir (por ejemplo, 4 equipos), se puede ejecutar cálculos que se distribuyan entre todos los procesadores (20 núcleos + 16 hilos de eficiencia por i5-14500, lo que hace un total de 144 hilos de procesamiento).
 
-Aquí se presenta una guía paso a paso para configurar su "mini-clúster" casero.
+Aquí se presenta una guía paso a paso para configurar un "mini-clúster" casero.
 
 ### Visión General del Proceso
 
@@ -170,4 +170,4 @@ mpirun -np 56 --hostfile machines /home/usuario/qe-7.2/bin/pw.x -i pw.in > pw.ou
 4.  **Software:** MPI y QE instalados y compilados, ejecutables en la misma ruta en todos los nodos.
 5.  **Configuración:** Archivo `machines` listo en el directorio de trabajo.
 
-Con esta configuración, se busca haber creado un clúster homogéneo muy capaz que le permitirá reducir drásticamente los tiempos de cálculo de Quantum ESPRESSO. 
+Con esta configuración, se busca haber creado un clúster homogéneo capaz que permitirá reducir drásticamente los tiempos de cálculo de Quantum ESPRESSO. 
