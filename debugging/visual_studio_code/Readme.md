@@ -1,4 +1,4 @@
-# Configuración de Debugging con GDB en Visual Studio Code (Linux)
+# Configuración de Debugging con GDB en Visual Studio Code
 
 Esta guía le ayudará a configurar el entorno de depuración en **Visual Studio Code** usando **GDB** para programas escritos en **C o C++** en sistemas **Linux**.
 
@@ -45,7 +45,7 @@ gdb --version
 ## Paso 2: Abrir tu proyecto en VS Code
 
 1. Crear o abrir una carpeta de proyecto (ej. `mi_proyecto/`).
-2. Asegúrarse de tener al menos un archivo fuente, por ejemplo: `main.c` o `main.cpp`.
+2. Asegurarse de tener al menos un archivo fuente, por ejemplo: `main.c` o `main.cpp`.
 
 Ejemplo (`main.c`):
 
@@ -175,7 +175,7 @@ Este archivo:
   ```json
   "args": ["<", "input.txt"]
   ```
-  o mejor, modificar temporalmente el código para leer de un archivo durante depuración.
+  O mejor, modificar temporalmente el código para leer de un archivo durante la depuración.
 - **Soporte para múltiples archivos**: Ajustar `tasks.json` para compilar varios archivos:
   
   ```json
