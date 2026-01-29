@@ -109,7 +109,7 @@ Crear `.vscode/tasks.json`:
 
 ###  Archivo 2: `launch.json` (para depurar con GDB)
 
-Crea `.vscode/launch.json`:
+Crear `.vscode/launch.json`:
 
 ```json
 {
