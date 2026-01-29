@@ -1,4 +1,4 @@
-# Guía Paso a Paso: Configuración y Uso de GDB en Linux
+# Configuración y Uso de GDB en Linux
 
 Esta guía ayudará a configurar y utilizar **GDB (GNU Debugger)** para depurar programas escritos en lenguajes como C o C++ en sistemas Linux.
 
