@@ -1,6 +1,6 @@
 # Sombrero Mexicano 
 
-Este script realiza la visualización tridimensional de la función conocida como **sombrero mexicano**, usando el software Gnuplot para crear un gráfico interactivo y coloreado de la superficie definida por la fórmula matemática $$ f(x, y) = \frac{\sin(\sqrt{x^2 + y^2})}{\sqrt{x^2 + y^2}} $$.
+Este script realiza la visualización tridimensional de la función conocida como **sombrero mexicano**, usando el software Gnuplot para crear un gráfico interactivo y coloreado de la superficie definida por la fórmula matemática $f(x, y) = \frac{\sin(\sqrt{x^2 + y^2})}{\sqrt{x^2 + y^2}}$.
 
 ### Objetivo del script
 El propósito principal es dibujar el gráfico 3D del sombrero mexicano, que es una función oscilatoria tipo sinc, centrada en el origen y con comportamiento radial, usada frecuentemente en física y procesamiento de señales.
