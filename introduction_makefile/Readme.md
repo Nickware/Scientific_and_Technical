@@ -1,10 +1,8 @@
 # Gas Ideal: Gráfica de Presión vs Temperatura (Fortran 77 + Makefile)
 
-Este es un ejemplo que demuestra cómo usar **Fortran 77** junto con un **Makefile** y **gnuplot** para modelar y visualizar la ley del gas ideal:
+Este es un ejemplo que demuestra cómo usar Fortran 77 junto con un Makefile y Gnuplot para modelar y visualizar la ley del gas ideal:
 
-\[
-P = \frac{nRT}{V}
-\]
+$\[P = \frac{nRT}{V}\]$
 
 El programa genera datos de presión en función de la temperatura (con volumen y moles constantes) y los grafica automáticamente.
 
@@ -58,7 +56,7 @@ make
 Esto hará lo siguiente:
 - Compilará `gas_ideal.f` → genera el ejecutable `gas_ideal`
 - Ejecutará el programa → genera `datos.dat`
-- Creará un script de gnuplot (`plot.gp`)
+- Creará un script de Gnuplot (`plot.gp`)
 - Generará la gráfica → `gas_ideal.png`
 
 4. ¡Abre `gas_ideal.png` para ver la gráfica!
@@ -104,6 +102,5 @@ Después de editar, vuelve a ejecutar `make`.
 ## Licencia
 
 Este proyecto es de código abierto y está disponible bajo la licencia **MIT**.  
-Ver archivo [`LICENSE`](LICENSE) para más detalles.
 
 > Ideal para fines educativos, laboratorios introductorios de física o química, o como ejemplo de integración entre Fortran y herramientas de automatización.
