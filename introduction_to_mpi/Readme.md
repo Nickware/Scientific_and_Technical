@@ -12,7 +12,7 @@ El objetivo es que un equipo actúe como **"Maestro"** (desde donde se envían l
 
 ### Paso 1: Preparación Básica de la Red y los Equipos
 
-#### 1.1. Configuración de Red Zerotier
+#### 1.1. Configuración de red Zerotier
 Asegurarse de que los 4 equipos están en la misma red y pueden **hacer ping entre sí usando sus direcciones IP**.
 *   En cada terminal, ejecute `ip addr show zt0` (o el nombre de la interfaz que Zerotier haya creado) para ver la IP.
 *   Anote las IPs de cada máquina. Para este ejemplo, usaremos:
@@ -21,7 +21,7 @@ Asegurarse de que los 4 equipos están en la misma red y pueden **hacer ping ent
     *   **Nodo3:** `10.147.20.12`
     *   **Nodo4:** `10.147.20.13`
 
-#### 1.2. Configurar los Nombres de Host (Recomendado)
+#### 1.2. Configurar los nombres de host (Recomendado)
 Edite el archivo `/etc/hosts` en **cada uno de los 4 equipos** y añada las siguientes líneas:
 ```bash
 sudo nano /etc/hosts
@@ -47,7 +47,7 @@ ping nodo2
     ```bash
     ssh-keygen -t rsa  # Presione Enter para todas las preguntas.
     ```
-*   **Copiar la clave pública a todos los nodos (incluído él mismo):**
+*   **Copiar la clave pública a todos los nodos (incluido él mismo):**
     
     ```bash
     ssh-copy-id usuario@nodo1
@@ -56,7 +56,7 @@ ping nodo2
     ssh-copy-id usuario@nodo4
     ```
     Reemplace `usuario` por su nombre de usuario real.
-*   **Verifique** que puede conectarse desde `nodo1` a cualquiera de los otros (y a sí mismo) via SSH sin que le pida contraseña:
+*   **Verifique** que puede conectarse desde `nodo1` a cualquiera de los otros (y a sí mismo) vía SSH sin que le pida contraseña:
     
     ```bash
     ssh nodo2 whoami
@@ -76,17 +76,17 @@ sudo apt update
 sudo apt install sshfs
 ```
 
-#### 2.2. Crear una Carpeta de Trabajo en el Maestro
+#### 2.2. Crear una carpeta de trabajo en el Maestro
 En `nodo1` (el maestro), cree una carpeta que será el directorio de trabajo principal, por ejemplo: `/home/usuario/qe_cluster`.
 
-#### 2.3. Montar la Carpeta del Maestro en los Esclavos
+#### 2.3. Montar la carpeta del maestro en los esclavos
 En **nodo2, nodo3 y nodo4**, cree una carpeta y monte la carpeta del maestro.
 ```bash
 # En nodo2, nodo3 y nodo4:
 mkdir ~/qe_work
 sshfs usuario@nodo1:/home/usuario/qe_cluster ~/qe_work
 ```
-**Nota:** Este montaje se pierde al reiniciar. Para hacerlo permanente, puede añadirlo a `/etc/fstab` pero es más complejo. Por ahora, con que lo monte manualmente es suficiente.
+**Nota:** Este montaje se pierde al reiniciar. Para hacerlo permanente, puede añadirlo a `/etc/fstab` pero es más complejo. Por ahora, con que lo monte manualmente, es suficiente.
 
 Ahora, cualquier archivo que ponga en `/home/usuario/qe_cluster` en `nodo1` será visible en `~/qe_work` en los otros nodos.
 
@@ -95,7 +95,7 @@ Ahora, cualquier archivo que ponga en `/home/usuario/qe_cluster` en `nodo1` ser�
 ### Paso 3: Configurar Quantum ESPRESSO para Ejecución en Paralelo
 
 #### 3.1. Instalar las Herramientas de Desarrollador y MPI
-En **los 4 equipos**, instale los compiladores y bibliotecas necesarias:
+En **los 4 equipos**, instale los compiladores y bibliotecas necesarios:
 ```bash
 sudo apt update
 sudo apt install gfortran openmpi-bin openmpi-common libopenmpi-dev libfftw3-dev libblas-dev liblapack-dev
@@ -120,14 +120,14 @@ Solo necesita compilar en **uno de los equipos** (por ejemplo, en `nodo1`) y lue
     ```
 5.  Una vez compilado, tendrá los ejecutables en la carpeta `bin` (e.g., `pw.x`, `ph.x`).
 
-#### 3.3. Distribuir los Ejecutables
+#### 3.3. Distribuir los ejecutables
 Copie la carpeta `bin/` completa de QE (desde `nodo1`) a la **misma ruta absoluta** en los otros 3 nodos. Por ejemplo, si en `nodo1` está en `/home/usuario/qe-7.2/bin`, créela y copie los archivos en esa misma ruta en `nodo2`, `nodo3` y `nodo4`.
 
 Esto es importante porque MPI espera encontrar el ejecutable en la misma ruta en todos los nodos.
 
 ---
 
-### Paso 4: Crear un Archivo "Machines" para MPI
+### Paso 4: Crear un archivo "Machines" para MPI
 
 En el maestro (`nodo1`), en su carpeta de trabajo `/home/usuario/qe_cluster`, cree un archivo llamado `machines`. Este archivo le dice a MPI qué nodos usar y cuántos procesos puede lanzar en cada uno.
 
