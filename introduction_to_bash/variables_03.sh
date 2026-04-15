@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Author: NTorres 
-# Date: 20 Jul 2025
-# Version: 0.3
+# Date: 14 abr. 2025
+# Version: 0.4
 
 function ejemplo_zona_horaria() {
     echo "Zona horaria es: America/Bogota"
@@ -77,7 +77,7 @@ while true; do
     echo "3) Extraer partes de la fecha (set, date)"
     echo "4) Manipular argumentos con shift"
     echo "5) Uso de arrays en Bash"
-    echo "6) Here-Document (cat <<)"
+    echo "6) Aqui-Documento (cat <<)"
     echo "0) Salir"
     read -p "Opción: " opcion
 
@@ -92,6 +92,6 @@ while true; do
         *) echo "Opción inválida. Intente de nuevo." ;;
     esac
 
-    read -p "Presiona Enter para continuar..."
+    read -p "Presionar Enter para continuar..."
 done
 
