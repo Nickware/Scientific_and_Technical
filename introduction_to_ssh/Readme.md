@@ -256,6 +256,66 @@ chmod +x configurar_ssh.sh
 
 ## **SOLUCIÓN DE PROBLEMAS COMUNES**
 
+### **Error: "port 22: No route to host"**
+Este error significa que **el cliente no puede alcanzar el servidor** en el puerto 22.
+
+#### **Posibles causas y soluciones:**
+
+**1. Verificar que el servidor SSH está corriendo:**
+```bash
+# En el servidor:
+sudo systemctl status sshd
+
+# Si no está corriendo:
+sudo systemctl start sshd
+```
+
+**2. Verificar que SSH escucha en el puerto 22:**
+```bash
+# En el servidor:
+sudo netstat -tuln | grep :22
+# o
+sudo ss -tuln | grep :22
+# Debe mostrar: tcp  0  0  0.0.0.0:22  0.0.0.0:*  LISTEN
+```
+
+**3. Verificar conectividad de red:**
+```bash
+# Desde el cliente, probar si el host es alcanzable:
+ping ip_servidor
+
+# Probar específicamente el puerto 22:
+telnet ip_servidor 22
+# o
+nc -zv ip_servidor 22
+```
+
+**4. Verificar firewall (bloquea puerto 22):**
+```bash
+# En el servidor, si usa firewall:
+# Para UFW (Ubuntu):
+sudo ufw status
+sudo ufw allow 22/tcp
+
+# Para firewalld (CentOS/RHEL):
+sudo firewall-cmd --permanent --add-service=ssh
+sudo firewall-cmd --reload
+
+# Para iptables:
+sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+```
+
+**5. Verificar IP/hostname correcta:**
+```bash
+# Desde el cliente, verificar que la IP es correcta:
+ssh -v usuario@ip_servidor_correcta
+
+# Si usas hostname, verificar que resuelve:
+nslookup hostname_servidor
+# o
+ping hostname_servidor
+```
+
 ### **Error de permisos:**
 ```bash
 # En el cliente:
