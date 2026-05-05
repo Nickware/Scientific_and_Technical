@@ -1,6 +1,6 @@
 # Introducción a Lenguaje Bash
 
-Este carpeta contiene una colección práctica de **ejemplos interactivos en Bash**, ideales para aprender fundamentos esenciales del scripting en sistemas Linux o Unix. Los scripts están pensados tanto para principiantes como para quienes desean repasar el manejo de variables, argumentos, arrays y entrada/salida avanzada en Bash.
+Esta carpeta contiene una colección práctica de ejemplos interactivos en Bash, ideales para aprender fundamentos esenciales del scripting en sistemas Linux o Unix. Los scripts están pensados tanto para principiantes como para quienes desean repasar el manejo de variables, argumentos, arrays y entrada/salida avanzada en Bash.
 
 ## Ejemplos incluidos
 
@@ -37,7 +37,7 @@ Este carpeta contiene una colección práctica de **ejemplos interactivos en Bas
 - Ejemplo de declaración y acceso a arrays:
     - Acceso a todos los elementos.
     - Acceso individual por índice.
-- Fundamental para almacenar y procesar listas de datos en shell scripts.
+- Fundamental para almacenar y procesar listas de datos en scripts de shell.
 
 
 ### 6. Here-Document (`cat <<`)
@@ -62,5 +62,5 @@ Este carpeta contiene una colección práctica de **ejemplos interactivos en Bas
 - Brindar ejemplos claros, ejecutables y adaptables.
 - Fomentar la experimentación interactiva y el autoaprendizaje.
 
-Estos ejemplos permiten profundizar en lenguaje Bash scripting. Recursos como puntos de partida flexibles y prácticos.
+Estos ejemplos permiten profundizar en el lenguaje Bash scripting. Recursos como puntos de partida flexibles y prácticos.
 

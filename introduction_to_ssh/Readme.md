@@ -107,7 +107,7 @@ ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
 
 # Verificar que se crearon las claves
 ls -la ~/.ssh/
-# Debes ver: id_rsa (clave privada) y id_rsa.pub (clave pública)
+# Debería ver: id_rsa (clave privada) y id_rsa.pub (clave pública)
 ```
 
 ---
@@ -116,7 +116,7 @@ ls -la ~/.ssh/
 
 ### **Método 1: Usar ssh-copy-id (Recomendado)**
 ```bash
-# Reemplaza "usuario" y "ip_servidor" con tus datos reales
+# Reemplaza "usuario" y "ip_servidor" por tus datos reales
 ssh-copy-id -i ~/.ssh/id_rsa.pub usuario@ip_servidor
 
 # Ejemplo:
@@ -188,7 +188,7 @@ ssh servidor2  # En lugar de ssh maria@192.168.1.101
 
 ##  **PASO 8: DESHABILITAR ACCESO POR CONTRASEÑA (SEGURIDAD)**
 
-### ** SOLO después de verificar que las claves SSH funcionan:**
+> SOLO después de verificar que las claves SSH funcionan:
 
 #### **En el servidor, editar configuración:**
 ```bash

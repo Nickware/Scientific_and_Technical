@@ -1,3 +1,10 @@
+# Script para graficar el sombrero mexicano usando gnuplot
+# Para ejecutar este script, guarda el código en un archivo llamado 'sombrero_mexicano.gnuplot' y luego ejecuta el comando:
+# gnuplot sombrero_mexicano.gnuplot
+# Este script configura un gráfico 3D del sombrero mexicano utilizando la función sin(sqrt(x^2 + y^2)) / sqrt(x^2 + y^2) y aplica un sombreado de color para mejorar la visualización.
+# Configura el terminal para salida en pantalla
+# Puedes cambiar 'wxt' por 'qt' o 'aqua' dependiendo de tu sistema operativo y preferencias
+
 # Establece el título del gráfico
 set title "Sombrero Mexicano"
 

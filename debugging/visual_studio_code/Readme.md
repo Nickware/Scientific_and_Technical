@@ -1,4 +1,4 @@
-# Configuración de Debugging con GDB en Visual Studio Code (Linux)
+# Configuración de Debugging con GDB en Visual Studio Code
 
 Esta guía le ayudará a configurar el entorno de depuración en **Visual Studio Code** usando **GDB** para programas escritos en **C o C++** en sistemas **Linux**.
 
@@ -42,10 +42,10 @@ gdb --version
 
 ---
 
-## Paso 2: Abrir tu proyecto en VS Code
+## Paso 2: Abrir su proyecto en VS Code
 
 1. Crear o abrir una carpeta de proyecto (ej. `mi_proyecto/`).
-2. Asegúrarse de tener al menos un archivo fuente, por ejemplo: `main.c` o `main.cpp`.
+2. Asegurarse de tener al menos un archivo fuente, por ejemplo: `main.c` o `main.cpp`.
 
 Ejemplo (`main.c`):
 
@@ -109,7 +109,7 @@ Crear `.vscode/tasks.json`:
 
 ###  Archivo 2: `launch.json` (para depurar con GDB)
 
-Crea `.vscode/launch.json`:
+Crear `.vscode/launch.json`:
 
 ```json
 {
@@ -146,7 +146,7 @@ Este archivo:
 
 ---
 
-## Paso 4: Depurar tu programa
+## Paso 4: Depurar su programa
 
 1. Abrir el archivo fuente (ej. `main.c`) en VS Code.
 2. Hacer clic en el ícono de **Run and Debug** (o presionar `Ctrl+Shift+D`).
@@ -158,8 +158,8 @@ Este archivo:
 
 ### Colocar breakpoints
 
-- Hacer clic en el margen izquierdo junto al número de línea para colocar un **breakpoint** (aparecerá un punto rojo).
-- Durante la depuración, puede inspeccionar variables, usar **Step Over**, **Step Into**, etc., desde la barra de control.
+- Hacer clic en el margen izquierdo, junto al número de línea, para colocar un **breakpoint** (aparecerá un punto rojo).
+- Durante la depuración, puede inspeccionar variables y usar **Step Over**, **Step Into**, etc. desde la barra de control.
 
 ---
 
@@ -175,7 +175,7 @@ Este archivo:
   ```json
   "args": ["<", "input.txt"]
   ```
-  o mejor, modificar temporalmente el código para leer de un archivo durante depuración.
+  O mejor, modificar temporalmente el código para leer de un archivo durante la depuración.
 - **Soporte para múltiples archivos**: Ajustar `tasks.json` para compilar varios archivos:
   
   ```json
@@ -191,7 +191,7 @@ Este archivo:
 | *"preLaunchTask terminated with exit code 1"* | Revisar errores de compilación en la pestaña **Terminal > Tasks** |
 | No se detiene en breakpoints                  | Asegurarse de que compiló con `-g` y que el ejecutable está actualizado |
 | GDB no encontrado                             | Verificar que `gdb` esté instalado y en el `PATH`            |
-| No se muestra el código fuente                | Asegúrarse de estar depurando el archivo correcto y que el ejecutable coincida con el código |
+| No se muestra el código fuente                | Asegurarse de estar depurando el archivo correcto y que el ejecutable coincida con el código |
 
 ---
 
