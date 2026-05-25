@@ -14,7 +14,7 @@ git clone <url>
 
 - `git init test_repo`: Crear un nuevo repositorio Git vacío en la carpeta `test_repo`.
 - `cd test_repo`: Acceder a la carpeta del repositorio.
-- `git clone <url>`: Clonar un repositorio remoto existente en tu máquina (descargar todo el historial de commits, ramas, etc.).
+- `git clone <url>`: Clonar un repositorio remoto en tu máquina (descargar todo el historial de commits, ramas, etc.).
 
 ***
 
@@ -103,11 +103,75 @@ git fetch origin
 ***
 
 **En resumen:**
-Este readme es una glosario de comandos básicos de Git:
+Este readme es un glosario de comandos básicos de Git:
 
 - Creación y clonación de repositorios
 - Manejo de archivos y commits
 - Consultar de historial y diferencias
 - Trabajo con ramas y fusiones
 - Sincronización con repositorios remotos
+
+
+# Extensiones que "explotan" el motor de GitHub
+
+---
+
+## 1. Productividad e Inteligencia Artificial
+
+### GitHub Copilot & GitHub Copilot Chat
+
+Es la joya de la corona y la razón por la que muchos desarrolladores eligen este entorno.
+
+* **Cómo explota el motor:** Utiliza los miles de millones de líneas de código público alojadas en GitHub para entrenar su modelo LLM.
+* **Qué hace:** No solo autocompleta líneas de código o funciones enteras en tiempo real, sino que el chat lateral te permite pedirle que genere pruebas unitarias, explique código complejo (como scripts de Bash o físicas de fluidos) y depure errores sin salir del editor.
+
+---
+
+## 2. Gestión de Código y Colaboración
+
+### GitHub Pull Requests and Issues (Oficial)
+
+Esta extensión trae la experiencia web de GitHub directamente al panel izquierdo de VS Code.
+
+* **Cómo explota el motor:** Se conecta a la API de GitHub para gestionar el ciclo de vida del proyecto.
+* **Qué hace:** Permite revisar, validar y fusionar *Pull Requests* (PRs) viendo los comentarios de tus compañeros en el mismo lienzo donde editas el código. También te permite crear y asignar *Issues* (tareas o reportes de fallos) arrastrando líneas de código directamente a la tarea.
+
+### GitLens — Git supercharged
+
+Aunque no es exclusiva de GitHub (funciona con cualquier servidor Git), es la herramienta más potente para entender la historia del código.
+
+* **Cómo explota el motor:** Se integra con los perfiles de GitHub para mostrarte la autoría línea por línea.
+* **Qué hace:** Al pararte sobre cualquier línea de código, te muestra un texto tenue que dice **quién la cambió, en qué commit y hace cuánto tiempo** (conocido como *Git Blame*). Incluye un mapa visual de ramas que facilita enormemente el manejo de repositorios complejos.
+
+---
+
+## 3. Automatización y DevOps
+
+### GitHub Actions (Oficial)
+
+Si utilizas el motor de GitHub para Integración y Despliegue Continuo (CI/CD), esta extensión es indispensable.
+
+* **Cómo explota el motor:** Se vincula con los servidores de ejecución de GitHub (*runners*) para monitorear tus flujos de trabajo.
+* **Qué hace:** Te permite gestionar tus archivos de configuración YAML, validar la sintaxis de tus *workflows* antes de subirlos, y ver en tiempo real si las pruebas automatizadas pasaron o fallaron tras hacer un `git push`.
+
+---
+
+## 4. Gestión Remota de Entornos
+
+### GitHub Codespaces
+
+Permite saltar las limitaciones físicas de tu máquina local trasladando el entorno de desarrollo a la nube de GitHub.
+
+* **Cómo explota el motor:** Utiliza contenedores Linux hospedados directamente por GitHub en la nube.
+* **Qué hace:** Si necesitas probar un entorno de desarrollo pesado o compilar código en una máquina con más núcleos de CPU o RAM, esta extensión conecta tu VS Code local con una máquina virtual en la nube configurada exactamente con tu repositorio. Es ideal para trabajar en proyectos grandes desde computadoras portátiles ligeras.
+
+---
+
+## Resumen de Combinación Ideal
+
+Para un flujo de trabajo optimizado y profesional, la combinación recomendada en tu barra lateral de VS Code debería incluir:
+
+1. **GitHub Copilot:** Para velocidad de escritura y resolución de dudas técnicas.
+2. **GitHub Pull Requests and Issues:** Para mantener el control de tus tareas y revisiones sin abrir el navegador web.
+3. **GitLens:** Para auditar el historial de cambios en proyectos colaborativos.
 
