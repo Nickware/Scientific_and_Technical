@@ -361,3 +361,49 @@ ssh usuario@ip_servidor "hostname && whoami"
 5. **Opcional**: Deshabilitar autenticación por contraseña
 
 ¡Con esto se debería tener un SSH configurado para ingresar sin contraseña! 
+
+# SSH en Visual Studio Code
+
+Para sacarle provecho a SSH en Visual Studio Code, existen principalmente dos enfoques: **trabajar directamente en el servidor** (como si fuera tu máquina local) o **sincronizar archivos** (editar local y subir a remoto).
+
+Aquí hay algunas de las mejores extensiones clasificadas por su uso:
+
+### 1. La opción oficial y superior (Entorno Remoto)
+
+Si el objetivo es programar, depurar y ejecutar comandos directamente en el servidor sin preocuparse por sincronizar archivos, **esto es lo único que necesita**.
+
+* **[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)** (de Microsoft)
+* **Por qué es la mejor:** No sincroniza archivos; *abre el servidor* dentro de tu VS Code. Las extensiones que instale (como Python, C++, Docker) se ejecutarán en el servidor, no en tu PC. Es como si el servidor fuera tu computadora local.
+* **Ideal para:** Desarrolladores que necesitan un entorno de desarrollo completo y potente en una máquina remota.
+
+
+
+---
+
+### 2. Opciones de Sincronización (SFTP/FTP)
+
+Si prefiere editar archivos localmente y que se suban automáticamente al servidor cada vez que guarde, estas son las mejores alternativas:
+
+* **[SFTP](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp)** (mantenida por Natizyskunk)
+* **Por qué destaca:** Es el fork más confiable y actualizado de la clásica extensión SFTP. Es excelente para flujos de trabajo donde prefieres mantener el código en tu máquina local y desplegarlo en un servidor (ej. un servidor web de pruebas).
+* **Ideal para:** Edición rápida de sitios web o aplicaciones sencillas donde el código fuente vive en tu equipo.
+
+
+* **[SSH FS](https://www.google.com/search?q=https://marketplace.visualstudio.com/items%3FitemName%3DKelvinSchoofs.vscode-sshfs)**
+* **Por qué destaca:** Montar directorios remotos como si fueran carpetas locales en tu explorador de archivos. Ofrece una experiencia más nativa y fluida que otras opciones de sincronización, ya que trata el sistema de archivos remoto como parte de tu espacio de trabajo.
+
+
+
+---
+
+### Tabla de Comparación Rápida
+
+| Extensión | Enfoque | ¿Cómo funciona? |
+| --- | --- | --- |
+| **Remote - SSH** | Desarrollo Remoto | El servidor se "convierte" en tu entorno local. |
+| **SFTP** | Sincronización | Editas local, se sube al guardar. |
+| **SSH FS** | Montaje de archivos | Acceso directo a archivos remotos como si fueran locales. |
+
+### Recomendación
+
+Si tiene una conexión a internet estable, **instalar `Remote - SSH**`. 
