@@ -62,5 +62,5 @@ Esta carpeta contiene una colección práctica de ejemplos interactivos en Bash,
 - Brindar ejemplos claros, ejecutables y adaptables.
 - Fomentar la experimentación interactiva y el autoaprendizaje.
 
-Estos ejemplos permiten profundizar en el lenguaje Bash scripting. Recursos como puntos de partida flexibles y prácticos.
+Estos ejemplos permiten profundizar en el lenguaje de scripting de Bash. Recursos como puntos de partida flexibles y prácticos.
 
