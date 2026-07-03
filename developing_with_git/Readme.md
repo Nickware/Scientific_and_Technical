@@ -1,3 +1,135 @@
+## ¿Qué es Git?
+
+Git es un **sistema de control de versiones distribuido**.
+- **Control de versiones**: Guarda el historial completo de cambios en tus archivos.
+- **Distribuido**: Cada copia del repositorio es completa. No dependes de un servidor central para trabajar (aunque usamos GitHub/GitLab para compartir).
+
+Fue creado por **Linus Torvalds** (el mismo creador de Linux) en 2005, precisamente porque estaba harto de las herramientas existentes. Es rápido, eficiente y maneja proyectos gigantes como el kernel de Linux sin sudar.
+
+## Los 3 Estados de Git 
+
+Esta es la clave mental para no volverse loco:
+
+1. **Working Directory (Directorio de trabajo)**: donde está editando tus archivos ahora mismo. El caos creativo.
+2. **Staging Area (Índice/Stage)**: La zona de "preparación". Aquí seleccionas qué cambios van al siguiente commit. Es como hacer la maleta antes de viajar.
+3. **Repository (Repositorio/.git)**: donde se guardan permanentemente los commits. La historia oficial.
+
+## Flujo básico de trabajo
+
+```bash
+# 1. Ver qué cambió
+git status
+
+# 2. Agregar cambios al Stage (la maleta)
+git add archivo.py
+# O agregar todo
+git add .
+
+# 3. Guardar el cambio (Commit)
+git commit -m "Mensaje descriptivo del cambio"
+
+# 4. Enviar al remoto (GitHub/GitLab)
+git push origin main
+```
+
+## Conceptos Clave
+
+### 1. **Branches (Ramas)** 🌿
+Git brilla aquí. Puedes crear líneas de tiempo alternativas sin afectar la principal.
+- `main` o `master`: La versión estable.
+- `feature/nueva-funcionalidad`: Donde experimentas.
+
+```bash
+git branch nueva-rama      # Crear rama
+git checkout nueva-rama    # Cambiarse a ella
+# O en uno solo:
+git checkout -b nueva-rama
+```
+
+### 2. **Merge vs Rebase** ⚔️
+- **Merge**: Une dos ramas creando un "commit de merge". Mantiene la historia exacta de lo que pasó. Es honesto pero puede ensuciar el historial.
+- **Rebase**: Reescribe la historia. Toma tus commits y los "pone encima" de la otra rama como si hubieras trabajado directamente ahí. Deja un historial lineal y limpio, pero **peligroso** si ya compartiste la rama.
+
+> *Filosofía*: Usa merge para integrar características públicas, rebase para limpiar tu rama privada antes de hacer merge.
+
+### 3. **HEAD**
+Es un puntero a donde estás parado. Normalmente apunta a la última commit de la rama actual.
+
+### 4. **Detached HEAD** 😱
+Cuando haces checkout a un commit específico (no una rama). Estás "flotando" en el tiempo. Si haces commits ahí, pueden perderse fácilmente si no creas una rama.
+
+## Comandos de Supervivencia 
+
+```bash
+# Ver historial bonito
+git log --oneline --graph --all
+
+# Deshacer el último commit (pero mantener los cambios en stage)
+git reset --soft HEAD~1
+
+# Deshacer el último commit Y los cambios (¡CUIDADO!)
+git reset --hard HEAD~1
+
+# Descartar cambios en un archivo (volver al último commit)
+git checkout -- archivo.py
+
+# Ver diferencias entre stage y working directory
+git diff
+
+# Ver diferencias entre stage y último commit
+git diff --staged
+```
+
+## .gitignore
+
+Archivo crucial. Le dice a Git qué **ignorar**.
+```text
+# Archivos compilados
+*.o
+*.exe
+
+# Entornos virtuales
+venv/
+.env
+
+# Archivos temporales
+*.swp
+.DS_Store
+```
+
+## Git para tu contexto analítico 
+
+Imagina que estás analizando datos de tus entrenamientos:
+
+1. Tienes un script `analyze_heart_rate.py`.
+2. Empiezas a experimentar con un nuevo algoritmo de zonas.
+3. Creas una rama: `git checkout -b experimento-zonas`.
+4. Haces cambios, fallas, arreglas, commiteas.
+5. Funciona perfectamente.
+6. Vuelves a `main` y haces merge.
+7. Si el experimento era un desastre, simplemente borras la rama. Tu `main` nunca se contaminó.
+
+## Filosofía Gitana 
+
+Git te enseña **humildad y seguridad**:
+- **Humildad**: Porque siempre puedes equivocarte, pero Git te permite volver atrás.
+- **Seguridad**: porque cada commit es un punto de restauración.
+- **Colaboración**: porque separa el "qué hice" (commits) del "cuándo lo integré" (merges).
+
+## Errores comunes de principiantes
+
+1. **Commitear archivos binarios grandes** (datasets completos, modelos entrenados). Usa Git LFS o ignóralos.
+2. **Mensajes de commit vagos**: "fix", "update", "changes". Sé específico: "Corrige el cálculo de FCmax usando la fórmula de Tanaka".
+3. **Hacer push directo a main**: Usa ramas y Pull Requests/Merge Requests.
+
+## ¿Git vs SVN vs Mercurial?
+
+- **SVN**: Centralizado. Antiguo. Si el servidor cae, no puedes commitear.
+- **Mercurial**: Similar a Git pero más simple. Perdió la guerra.
+- **Git**: distribuido, rápido, complejo pero poderoso. Ganó.
+
+---
+
 # Secuencia de comandos en la terminal para trabajar con Git
 
 GitHub es el sistema de control de versiones más utilizado en el desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
