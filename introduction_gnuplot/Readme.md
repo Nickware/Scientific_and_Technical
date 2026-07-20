@@ -1,3 +1,33 @@
+# Gnuplot
+
+Gnuplot es una potente utilidad gráfica con línea de comandos que puede generar gráficos en 2D y 3D de funciones, datos y ajustes de datos [gnuplot](http://www.gnuplot.info). Se ejecuta en todos los sistemas operativos principales incluyendo Linux, Unix, Windows, macOS, entre otros [gnuplot](http://www.gnuplot.info).
+
+Originalmente lanzado en 1986, Gnuplot ha estado en desarrollo activo desde entonces [gnuplot](http://www.gnuplot.info). Se creó para permitir a los científicos y estudiantes visualizar funciones matemáticas e información de datos interactivamente [gnuplot](http://www.gnuplot.info).
+
+## Características Clave
+
+- Soporta muchos estilos de gráficas, incluyendo líneas, puntos, cajas, contornos, campos vectoriales, imágenes, superficies y texto [gnuplot](http://www.gnuplot.info/docs/loc69.html)
+- Genera salida para visualizaciones en pantalla interactivas, trazadores, impresoras modernas y varios formatos de archivo como EPS, PDF, PNG, SVG, LaTeX [gnuplot](http://www.gnuplot.info)
+- Lee datos en diversos formatos y puede generar múltiples gráficos en una sola imagen [en.wikipedia](https://en.wikipedia.org/wiki/Gnuplot)
+- Proporciona capacidades de scripting con bucles, funciones, variables, macros y preprocessado de datos [en.wikipedia](https://en.wikipedia.org/wiki/Gnuplot)
+- Realiza ajustes no lineales multidimensionales de datos usando algoritmos como Levenberg–Marquardt [en.wikipedia](https://en.wikipedia.org/wiki/Gnuplot)
+
+## Uso Ejemplo
+
+Aquí hay un ejemplo de cómo crear una gráfica con Gnuplot [en.wikipedia](https://en.wikipedia.org/wiki/Gnuplot):
+
+```gnuplot
+set title "Algunas funciones matemáticas" 
+set xrange [-10:10]
+set yrange [-2:2]
+set zeroaxis
+plot (x/4)**2, sin(x), 1/x
+```
+
+Esto generará una gráfica con tres funciones: $$(x/4)^2, \sin(x), \frac{1}{x}$$
+
+Gnuplot es una herramienta gratuita, flexible y potente para visualizar datos e información de funciones tanto en 2D como en 3D. Su interfaz con línea de comandos y capacidades de scripting la hacen ideal para automatizar gráficas e integrar con otros programas."
+
 # Sombrero Mexicano 
 
 Este script realiza la visualización tridimensional de la función conocida como **sombrero mexicano**, usando el software Gnuplot para crear un gráfico interactivo y coloreado de la superficie definida por la fórmula matemática $f(x, y) = \frac{\sin(\sqrt{x^2 + y^2})}{\sqrt{x^2 + y^2}}$.
