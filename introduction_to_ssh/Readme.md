@@ -1,14 +1,12 @@
-# **Guía Completa: Instalación y Configuración SSH (Sin Password)**
+# Guía Completa: Instalación y Configuración SSH (Sin Password)
 
 Paso a paso completo desde la instalación hasta la configuración de SSH sin contraseña.
 
----
+## PASO 1: INSTALACIÓN DEL SERVIDOR SSH
 
-## **PASO 1: INSTALACIÓN DEL SERVIDOR SSH**
+### En el equipo servidor (destino):
 
-### **En el equipo servidor (destino):**
-
-#### **Para Ubuntu/Debian:**
+#### Para Ubuntu/Debian:
 ```bash
 # Actualizar sistema
 sudo apt update && sudo apt upgrade -y
@@ -21,7 +19,7 @@ sudo systemctl status ssh
 sudo systemctl enable ssh  # Para que inicie automáticamente
 ```
 
-#### **Para CentOS/RHEL/Fedora:**
+#### Para CentOS/RHEL/Fedora:
 ```bash
 # Instalar servidor SSH
 sudo yum install openssh-server -y
@@ -34,7 +32,7 @@ sudo systemctl enable sshd
 sudo systemctl status sshd
 ```
 
-#### **Verificar instalación:**
+#### Verificar instalación:
 ```bash
 # Verificar que SSH está escuchando en puerto 22
 sudo netstat -tuln | grep 22
@@ -43,24 +41,24 @@ sudo netstat -tuln | grep 22
 
 ---
 
-## **PASO 2: INSTALACIÓN DEL CLIENTE SSH**
+## PASO 2: INSTALACIÓN DEL CLIENTE SSH
 
-### **En el equipo cliente (desde donde te conectarás):**
+### En el equipo cliente (desde donde te conectarás):
 
-#### **Para Ubuntu/Debian:**
+#### Para Ubuntu/Debian:
 ```bash
 sudo apt update
 sudo apt install openssh-client -y
 ```
 
-#### **Para CentOS/RHEL/Fedora:**
+#### Para CentOS/RHEL/Fedora:
 ```bash
 sudo yum install openssh-clients -y
 # o
 sudo dnf install openssh-clients -y
 ```
 
-#### **Verificar instalación:**
+#### Verificar instalación:
 ```bash
 ssh -V
 # Debe mostrar: OpenSSH_versión...
@@ -68,14 +66,14 @@ ssh -V
 
 ---
 
-##  **PASO 3: CONFIGURACIÓN BÁSICA DEL SERVIDOR SSH**
+##  PASO 3: CONFIGURACIÓN BÁSICA DEL SERVIDOR SSH
 
-### **En el servidor, editar configuración:**
+### En el servidor, editar configuración:
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
 
-#### **Configuración recomendada:**
+#### Configuración recomendada:
 ```plaintext
 # Habilitar autenticación por clave
 PubkeyAuthentication yes
@@ -91,16 +89,16 @@ ClientAliveInterval 300
 ClientAliveCountMax 2
 ```
 
-#### **Reiniciar servicio SSH:**
+#### Reiniciar servicio SSH:
 ```bash
 sudo systemctl restart sshd
 ```
 
 ---
 
-## **PASO 4: GENERAR CLAVES SSH EN EL CLIENTE**
+## PASO 4: GENERAR CLAVES SSH EN EL CLIENTE
 
-### **En el equipo cliente:**
+### En el equipo cliente:
 ```bash
 # Generar par de claves RSA (sin passphrase)
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
@@ -112,9 +110,9 @@ ls -la ~/.ssh/
 
 ---
 
-##  **PASO 5: COPIAR CLAVE PÚBLICA AL SERVIDOR**
+##  PASO 5: COPIAR CLAVE PÚBLICA AL SERVIDOR
 
-### **Método 1: Usar ssh-copy-id (Recomendado)**
+### Método 1: Usar ssh-copy-id (Recomendado)
 ```bash
 # Reemplaza "usuario" y "ip_servidor" por tus datos reales
 ssh-copy-id -i ~/.ssh/id_rsa.pub usuario@ip_servidor
@@ -123,7 +121,7 @@ ssh-copy-id -i ~/.ssh/id_rsa.pub usuario@ip_servidor
 ssh-copy-id -i ~/.ssh/id_rsa.pub juan@192.168.1.100
 ```
 
-### **Método 2: Manual (si ssh-copy-id no funciona)**
+### Método 2: Manual (si ssh-copy-id no funciona)
 ```bash
 # Copiar contenido de la clave pública
 cat ~/.ssh/id_rsa.pub
@@ -137,15 +135,15 @@ chmod 600 ~/.ssh/authorized_keys
 
 ---
 
-##  **PASO 6: VERIFICAR CONEXIÓN SIN CONTRASEÑA**
+##  PASO 6: VERIFICAR CONEXIÓN SIN CONTRASEÑA
 
-### **Desde el cliente, probar conexión:**
+### Desde el cliente, probar conexión:
 ```bash
 ssh usuario@ip_servidor
 # Debe conectarse SIN pedir contraseña
 ```
 
-### **Si pide contraseña, verificar:**
+### Si pide contraseña, verificar:
 ```bash
 # Verificar permisos en el servidor
 ssh usuario@ip_servidor "chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
@@ -156,14 +154,14 @@ ssh usuario@ip_servidor "cat ~/.ssh/authorized_keys"
 
 ---
 
-##  **PASO 7: CONFIGURACIÓN AVANZADA (OPCIONAL)**
+##  PASO 7: CONFIGURACIÓN AVANZADA (OPCIONAL)
 
-### **Crear archivo de configuración SSH en cliente:**
+### Crear archivo de configuración SSH en cliente:
 ```bash
 nano ~/.ssh/config
 ```
 
-#### **Agregar configuración:**
+#### Agregar configuración:
 ```plaintext
 Host servidor1
     HostName 192.168.1.100
@@ -178,7 +176,7 @@ Host servidor2
     Port 22
 ```
 
-#### **Ahora puedes conectarte con:**
+#### Ahora puedes conectarte con:
 ```bash
 ssh servidor1  # En lugar de ssh juan@192.168.1.100
 ssh servidor2  # En lugar de ssh maria@192.168.1.101
@@ -186,41 +184,41 @@ ssh servidor2  # En lugar de ssh maria@192.168.1.101
 
 ---
 
-##  **PASO 8: DESHABILITAR ACCESO POR CONTRASEÑA (SEGURIDAD)**
+##  PASO 8: DESHABILITAR ACCESO POR CONTRASEÑA (SEGURIDAD)
 
 > SOLO después de verificar que las claves SSH funcionan:
 
-#### **En el servidor, editar configuración:**
+#### En el servidor, editar configuración:
 ```bash
 sudo nano /etc/ssh/sshd_config
 ```
 
-#### **Cambiar estas líneas:**
+#### Cambiar estas líneas:
 ```plaintext
 PasswordAuthentication no
 ChallengeResponseAuthentication no
 UsePAM no
 ```
 
-#### **Reiniciar servicio SSH:**
+#### Reiniciar servicio SSH:
 ```bash
 sudo systemctl restart sshd
 ```
 
 ---
 
-##  **PASO 9: SCRIPT AUTOMATIZADO**
+##  PASO 9: SCRIPT AUTOMATIZADO
 
-### **Script para configurar múltiples servidores:**
+### Script para configurar múltiples servidores:
 
-#### **Crear archivo `servers.txt`:**
+#### Crear archivo `servers.txt`:
 ```plaintext
 usuario1@192.168.1.100
 usuario2@192.168.1.101
 usuario3@192.168.1.102
 ```
 
-#### **Script `configurar_ssh.sh`:**
+#### Script `configurar_ssh.sh`:
 ```bash
 #!/bin/bash
 
@@ -246,7 +244,7 @@ done < servers.txt
 echo "Todos los servidores configurados"
 ```
 
-#### **Hacer ejecutable y ejecutar:**
+#### Hacer ejecutable y ejecutar:
 ```bash
 chmod +x configurar_ssh.sh
 ./configurar_ssh.sh
@@ -254,14 +252,14 @@ chmod +x configurar_ssh.sh
 
 ---
 
-## **SOLUCIÓN DE PROBLEMAS COMUNES**
+## SOLUCIÓN DE PROBLEMAS COMUNES
 
-### **Error: "port 22: No route to host"**
-Este error significa que **el cliente no puede alcanzar el servidor** en el puerto 22.
+### Error: "port 22: No route to host"
+Este error significa que el cliente no puede alcanzar el servidor en el puerto 22.
 
-#### **Posibles causas y soluciones:**
+#### Posibles causas y soluciones:
 
-**1. Verificar que el servidor SSH está corriendo:**
+1. Verificar que el servidor SSH está corriendo:
 ```bash
 # En el servidor:
 sudo systemctl status sshd
@@ -270,7 +268,7 @@ sudo systemctl status sshd
 sudo systemctl start sshd
 ```
 
-**2. Verificar que SSH escucha en el puerto 22:**
+2. Verificar que SSH escucha en el puerto 22:
 ```bash
 # En el servidor:
 sudo netstat -tuln | grep :22
@@ -279,7 +277,7 @@ sudo ss -tuln | grep :22
 # Debe mostrar: tcp  0  0  0.0.0.0:22  0.0.0.0:*  LISTEN
 ```
 
-**3. Verificar conectividad de red:**
+3. Verificar conectividad de red:
 ```bash
 # Desde el cliente, probar si el host es alcanzable:
 ping ip_servidor
@@ -290,7 +288,7 @@ telnet ip_servidor 22
 nc -zv ip_servidor 22
 ```
 
-**4. Verificar firewall (bloquea puerto 22):**
+4. Verificar firewall (bloquea puerto 22):
 ```bash
 # En el servidor, si usa firewall:
 # Para UFW (Ubuntu):
@@ -305,7 +303,7 @@ sudo firewall-cmd --reload
 sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 ```
 
-**5. Verificar IP/hostname correcta:**
+5. Verificar IP/hostname correcta:
 ```bash
 # Desde el cliente, verificar que la IP es correcta:
 ssh -v usuario@ip_servidor_correcta
@@ -316,7 +314,7 @@ nslookup hostname_servidor
 ping hostname_servidor
 ```
 
-### **Error de permisos:**
+### Error de permisos:
 ```bash
 # En el cliente:
 chmod 700 ~/.ssh
@@ -327,12 +325,12 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
 ```
 
-### **Probar conexión en modo verbose:**
+### Probar conexión en modo verbose:
 ```bash
 ssh -vvv usuario@ip_servidor
 ```
 
-### **Reiniciar servicio SSH:**
+### Reiniciar servicio SSH:
 ```bash
 # En el servidor:
 sudo systemctl restart sshd
@@ -340,9 +338,9 @@ sudo systemctl restart sshd
 
 ---
 
-##  **VERIFICACIÓN FINAL**
+##  VERIFICACIÓN FINAL
 
-### **Comandos para probar:**
+### Comandos para probar:
 ```bash
 # Desde el cliente, debe conectar sin contraseña:
 ssh usuario@ip_servidor
@@ -353,28 +351,28 @@ ssh usuario@ip_servidor "hostname && whoami"
 
 ---
 
-## **RESUMEN DEL PROCESO**
-1. **Instalar SSH** en servidor y cliente
-2. **Generar claves** SSH en el cliente
-3. **Copiar clave pública** al servidor
-4. **Verificar** conexión sin contraseña
-5. **Opcional**: Deshabilitar autenticación por contraseña
+## RESUMEN DEL PROCESO
+1. Instalar SSH en servidor y cliente
+2. Generar claves SSH en el cliente
+3. Copiar clave pública al servidor
+4. Verificar conexión sin contraseña
+5. Opcional: Deshabilitar autenticación por contraseña
 
 ¡Con esto se debería tener un SSH configurado para ingresar sin contraseña! 
 
 # SSH en Visual Studio Code
 
-Para sacarle provecho a SSH en Visual Studio Code, existen principalmente dos enfoques: **trabajar directamente en el servidor** (como si fuera tu máquina local) o **sincronizar archivos** (editar local y subir a remoto).
+Para sacarle provecho a SSH en Visual Studio Code, existen principalmente dos enfoques: trabajar directamente en el servidor (como si fuera tu máquina local) o sincronizar archivos (editar local y subir a remoto).
 
 Aquí hay algunas de las mejores extensiones clasificadas por su uso:
 
 ### 1. La opción oficial y superior (Entorno Remoto)
 
-Si el objetivo es programar, depurar y ejecutar comandos directamente en el servidor sin preocuparse por sincronizar archivos, **esto es lo único que necesita**.
+Si el objetivo es programar, depurar y ejecutar comandos directamente en el servidor sin preocuparse por sincronizar archivos, esto es lo único que necesita.
 
-* **[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)** (de Microsoft)
-* **Por qué es la mejor:** No sincroniza archivos; *abre el servidor* dentro de tu VS Code. Las extensiones que instale (como Python, C++, Docker) se ejecutarán en el servidor, no en tu PC. Es como si el servidor fuera tu computadora local.
-* **Ideal para:** Desarrolladores que necesitan un entorno de desarrollo completo y potente en una máquina remota.
+* [Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh) (de Microsoft)
+* Por qué es la mejor: No sincroniza archivos; *abre el servidor* dentro de tu VS Code. Las extensiones que instale (como Python, C++, Docker) se ejecutarán en el servidor, no en tu PC. Es como si el servidor fuera tu computadora local.
+* Ideal para: Desarrolladores que necesitan un entorno de desarrollo completo y potente en una máquina remota.
 
 
 
@@ -384,13 +382,13 @@ Si el objetivo es programar, depurar y ejecutar comandos directamente en el serv
 
 Si prefiere editar archivos localmente y que se suban automáticamente al servidor cada vez que guarde, estas son las mejores alternativas:
 
-* **[SFTP](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp)** (mantenida por Natizyskunk)
-* **Por qué destaca:** Es el fork más confiable y actualizado de la clásica extensión SFTP. Es excelente para flujos de trabajo donde prefieres mantener el código en tu máquina local y desplegarlo en un servidor (ej. un servidor web de pruebas).
-* **Ideal para:** Edición rápida de sitios web o aplicaciones sencillas donde el código fuente vive en tu equipo.
+* [SFTP](https://marketplace.visualstudio.com/items?itemName=Natizyskunk.sftp) (mantenida por Natizyskunk)
+* Por qué destaca: Es el fork más confiable y actualizado de la clásica extensión SFTP. Es excelente para flujos de trabajo donde prefieres mantener el código en tu máquina local y desplegarlo en un servidor (ej. un servidor web de pruebas).
+* Ideal para: Edición rápida de sitios web o aplicaciones sencillas donde el código fuente vive en tu equipo.
 
 
-* **[SSH FS](https://www.google.com/search?q=https://marketplace.visualstudio.com/items%3FitemName%3DKelvinSchoofs.vscode-sshfs)**
-* **Por qué destaca:** Montar directorios remotos como si fueran carpetas locales en tu explorador de archivos. Ofrece una experiencia más nativa y fluida que otras opciones de sincronización, ya que trata el sistema de archivos remoto como parte de tu espacio de trabajo.
+* [SSH FS](https://www.google.com/search?q=https://marketplace.visualstudio.com/items%3FitemName%3DKelvinSchoofs.vscode-sshfs)
+* Por qué destaca: Montar directorios remotos como si fueran carpetas locales en tu explorador de archivos. Ofrece una experiencia más nativa y fluida que otras opciones de sincronización, ya que trata el sistema de archivos remoto como parte de tu espacio de trabajo.
 
 
 
@@ -400,10 +398,10 @@ Si prefiere editar archivos localmente y que se suban automáticamente al servid
 
 | Extensión | Enfoque | ¿Cómo funciona? |
 | --- | --- | --- |
-| **Remote - SSH** | Desarrollo Remoto | El servidor se "convierte" en tu entorno local. |
-| **SFTP** | Sincronización | Editas local, se sube al guardar. |
-| **SSH FS** | Montaje de archivos | Acceso directo a archivos remotos como si fueran locales. |
+| Remote - SSH | Desarrollo Remoto | El servidor se "convierte" en tu entorno local. |
+| SFTP | Sincronización | Editas local, se sube al guardar. |
+| SSH FS | Montaje de archivos | Acceso directo a archivos remotos como si fueran locales. |
 
 ### Recomendación
 
-Si tiene una conexión a internet estable, **instalar `Remote - SSH**`. 
+Si tiene una conexión a internet estable, instalar `Remote - SSH`. 
