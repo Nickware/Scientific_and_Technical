@@ -1,18 +1,18 @@
 ## ¿Qué es Git?
 
-Git es un **sistema de control de versiones distribuido**.
-- **Control de versiones**: Guarda el historial completo de cambios en tus archivos.
-- **Distribuido**: Cada copia del repositorio es completa. No dependes de un servidor central para trabajar (aunque usamos GitHub/GitLab para compartir).
+Git es un sistema de control de versiones distribuido.
+- Control de versiones: Guarda el historial completo de cambios en tus archivos.
+- Distribuido: Cada copia del repositorio es completa. No dependes de un servidor central para trabajar (aunque usamos GitHub/GitLab para compartir).
 
-Fue creado por **Linus Torvalds** (el mismo creador de Linux) en 2005, precisamente porque estaba harto de las herramientas existentes. Es rápido, eficiente y maneja proyectos gigantes como el kernel de Linux sin sudar.
+Fue creado por Linus Torvalds (el mismo creador de Linux) en 2005, precisamente porque estaba harto de las herramientas existentes. Es rápido, eficiente y maneja proyectos gigantes como el kernel de Linux sin sudar.
 
 ## Los 3 Estados de Git 
 
 Esta es la clave mental para no volverse loco:
 
-1. **Working Directory (Directorio de trabajo)**: donde está editando tus archivos ahora mismo. El caos creativo.
-2. **Staging Area (Índice/Stage)**: La zona de "preparación". Aquí seleccionas qué cambios van al siguiente commit. Es como hacer la maleta antes de viajar.
-3. **Repository (Repositorio/.git)**: donde se guardan permanentemente los commits. La historia oficial.
+1. Working Directory (Directorio de trabajo): donde está editando sus archivos ahora mismo. El caos creativo.
+2. Staging Area (Índice/Stage): La zona de "preparación". Aquí seleccionas qué cambios van al siguiente commit. Es como hacer la maleta antes de viajar.
+3. Repository (Repositorio/.git): donde se guardan permanentemente los commits. La historia oficial.
 
 ## Flujo básico de trabajo
 
@@ -34,10 +34,10 @@ git push origin main
 
 ## Conceptos Clave
 
-### 1. **Branches (Ramas)** 🌿
+### 1. Branches (Ramas) 
 Git brilla aquí. Puedes crear líneas de tiempo alternativas sin afectar la principal.
 - `main` o `master`: La versión estable.
-- `feature/nueva-funcionalidad`: Donde experimentas.
+- `feature/nueva-funcionalidad`: donde se experimenta.
 
 ```bash
 git branch nueva-rama      # Crear rama
@@ -46,16 +46,16 @@ git checkout nueva-rama    # Cambiarse a ella
 git checkout -b nueva-rama
 ```
 
-### 2. **Merge vs Rebase** ⚔️
-- **Merge**: Une dos ramas creando un "commit de merge". Mantiene la historia exacta de lo que pasó. Es honesto pero puede ensuciar el historial.
-- **Rebase**: Reescribe la historia. Toma tus commits y los "pone encima" de la otra rama como si hubieras trabajado directamente ahí. Deja un historial lineal y limpio, pero **peligroso** si ya compartiste la rama.
+### 2. Merge vs Rebase 
+- Merge: Une dos ramas creando un "commit de merge". Mantiene la historia exacta de lo que pasó. Es honesto pero puede ensuciar el historial.
+- Rebase: Reescribe la historia. Toma tus commits y los "pone encima" de la otra rama como si hubieras trabajado directamente ahí. Deja un historial lineal y limpio, pero peligroso si ya compartiste la rama.
 
 > *Filosofía*: Usa merge para integrar características públicas, rebase para limpiar tu rama privada antes de hacer merge.
 
-### 3. **HEAD**
+### 3. HEAD
 Es un puntero a donde estás parado. Normalmente apunta a la última commit de la rama actual.
 
-### 4. **Detached HEAD** 😱
+### 4. Detached HEAD 
 Cuando haces checkout a un commit específico (no una rama). Estás "flotando" en el tiempo. Si haces commits ahí, pueden perderse fácilmente si no creas una rama.
 
 ## Comandos de Supervivencia 
@@ -82,7 +82,7 @@ git diff --staged
 
 ## .gitignore
 
-Archivo crucial. Le dice a Git qué **ignorar**.
+Archivo crucial. Le dice a Git qué ignorar.
 ```text
 # Archivos compilados
 *.o
@@ -97,36 +97,36 @@ venv/
 .DS_Store
 ```
 
-## Git para tu contexto analítico 
+## Git para un contexto analítico 
 
-Imagina que estás analizando datos de tus entrenamientos:
+Analizando datos de tus entrenamientos:
 
-1. Tienes un script `analyze_heart_rate.py`.
-2. Empiezas a experimentar con un nuevo algoritmo de zonas.
-3. Creas una rama: `git checkout -b experimento-zonas`.
-4. Haces cambios, fallas, arreglas, commiteas.
+1. Se tiene un script `analyze_heart_rate.py`.
+2. Empieza a experimentar con un nuevo algoritmo de zonas.
+3. Crea una rama: `git checkout -b experimento-zonas`.
+4. Hacer cambios, fallas, arreglos, comentarios (commits).
 5. Funciona perfectamente.
-6. Vuelves a `main` y haces merge.
-7. Si el experimento era un desastre, simplemente borras la rama. Tu `main` nunca se contaminó.
+6. Vuelve a `main` y hacer merge.
+7. Si el experimento era un desastre, simplemente borra la rama. El `main` nunca se contaminó.
 
 ## Filosofía Gitana 
 
-Git te enseña **humildad y seguridad**:
-- **Humildad**: Porque siempre puedes equivocarte, pero Git te permite volver atrás.
-- **Seguridad**: porque cada commit es un punto de restauración.
-- **Colaboración**: porque separa el "qué hice" (commits) del "cuándo lo integré" (merges).
+Git enseña:
+- Humildad: Porque siempre puede equivocarse, pero Git permite volver atrás.
+- Seguridad: porque cada commit es un punto de restauración.
+- Colaboración: porque separa el "qué hice" (commits) del "cuándo lo integré" (merges).
 
 ## Errores comunes de principiantes
 
-1. **Commitear archivos binarios grandes** (datasets completos, modelos entrenados). Usa Git LFS o ignóralos.
-2. **Mensajes de commit vagos**: "fix", "update", "changes". Sé específico: "Corrige el cálculo de FCmax usando la fórmula de Tanaka".
-3. **Hacer push directo a main**: Usa ramas y Pull Requests/Merge Requests.
+1. Commitear archivos binarios grandes (datasets completos, modelos entrenados). Usa Git LFS o ignóralos.
+2. Mensajes de commit vagos: "fix", "update", "changes". Sé específico: "Corrige el cálculo de FCmax usando la fórmula de Tanaka".
+3. Hacer push directo a main: Usa ramas y Pull Requests/Merge Requests.
 
 ## ¿Git vs SVN vs Mercurial?
 
-- **SVN**: Centralizado. Antiguo. Si el servidor cae, no puedes commitear.
-- **Mercurial**: Similar a Git pero más simple. Perdió la guerra.
-- **Git**: distribuido, rápido, complejo pero poderoso. Ganó.
+- SVN: centralizado. Antiguo. Si el servidor cae, no puedes commitear.
+- Mercurial: Similar a Git pero más simple. Perdió la guerra.
+- Git: distribuido, rápido, complejo pero poderoso. Ganó.
 
 ---
 
@@ -134,9 +134,9 @@ Git te enseña **humildad y seguridad**:
 
 GitHub es el sistema de control de versiones más utilizado en el desarrollo de software. A continuación se explica por secciones qué hace el script y qué significan los comandos:
 
-***
+*
 
-### 1. **Creación y clonación de repositorios**
+### 1. Creación y clonación de repositorios
 
 ```bash
 git init test_repo
@@ -148,9 +148,9 @@ git clone <url>
 - `cd test_repo`: Acceder a la carpeta del repositorio.
 - `git clone <url>`: Clonar un repositorio remoto en tu máquina (descargar todo el historial de commits, ramas, etc.).
 
-***
+*
 
-### 2. **Agregar y confirmar cambios**
+### 2. Agregar y confirmar cambios
 
 ```bash
 touch new_file.txt
@@ -164,9 +164,9 @@ git status
 - `git commit -m "add new_file.txt"`: Registrar el cambio en el historial de Git con un mensaje de commit.
 - `git status`: Muestra el estado del repositorio (archivos modificados, en staging, etc.).
 
-***
+*
 
-### 3. **Historial y diferencias**
+### 3. Historial y diferencias
 
 ```bash
 git log
@@ -184,9 +184,9 @@ git diff HEAD
 - `git diff --cached`: Cambios que están en staging comparados con el último commit.
 - `git diff HEAD`: Diferencias entre el directorio de trabajo y el último commit.
 
-***
+*
 
-### 4. **Ramas**
+### 4. Ramas
 
 ```bash
 git branch new_feature
@@ -204,9 +204,9 @@ git branch -d another_feature
 - `git merge new_feature`: Fusiona los cambios de `new_feature` en `main`.
 - `git branch -d another_feature`: Elimina la rama `another_feature`.
 
-***
+*
 
-### 5. **Eliminar archivos y commits relacionados**
+### 5. Eliminar archivos y commits relacionados
 
 ```bash
 rm b.txt
@@ -220,9 +220,9 @@ git log -- b.txt
 - `git commit -m "remove b.txt"`: Guardar el cambio eliminando ese archivo.
 - `git log -- b.txt`: Muestra el historial de commits relacionados con ese archivo, incluso si ya fue borrado.
 
-***
+*
 
-### 6. **Trabajo con repositorios remotos**
+### 6. Trabajo con repositorios remotos
 
 ```bash
 git push origin main
@@ -232,9 +232,9 @@ git fetch origin
 - `git push origin main`: Subir los commits locales a la rama `main` del repositorio remoto.
 - `git fetch origin`: Descargar la información más reciente del repositorio remoto, pero no la integra todavía (para eso se usa `git pull`, que es `fetch + merge`).
 
-***
+*
 
-**En resumen:**
+En resumen:
 Este readme es un glosario de comandos básicos de Git:
 
 - Creación y clonación de repositorios
@@ -252,10 +252,10 @@ Este readme es un glosario de comandos básicos de Git:
 
 ### GitHub Copilot & GitHub Copilot Chat
 
-Es la joya de la corona y la razón por la que muchos desarrolladores eligen este entorno.
+La razón por la que muchos desarrolladores eligen este entorno.
 
-* **Cómo explota el motor:** Utiliza los miles de millones de líneas de código público alojadas en GitHub para entrenar su modelo LLM.
-* **Qué hace:** No solo autocompleta líneas de código o funciones enteras en tiempo real, sino que el chat lateral te permite pedirle que genere pruebas unitarias, explique código complejo (como scripts de Bash o físicas de fluidos) y depure errores sin salir del editor.
+* Cómo explota el motor: Utiliza los miles de millones de líneas de código público alojadas en GitHub para entrenar su modelo LLM.
+* Qué hace: No solo autocompleta líneas de código o funciones enteras en tiempo real, sino que el chat lateral te permite pedirle que genere pruebas unitarias, explique código complejo (como scripts de Bash o físicas de fluidos) y depure errores sin salir del editor.
 
 ---
 
@@ -265,15 +265,15 @@ Es la joya de la corona y la razón por la que muchos desarrolladores eligen est
 
 Esta extensión trae la experiencia web de GitHub directamente al panel izquierdo de VS Code.
 
-* **Cómo explota el motor:** Se conecta a la API de GitHub para gestionar el ciclo de vida del proyecto.
-* **Qué hace:** Permite revisar, validar y fusionar *Pull Requests* (PRs) viendo los comentarios de tus compañeros en el mismo lienzo donde editas el código. También te permite crear y asignar *Issues* (tareas o reportes de fallos) arrastrando líneas de código directamente a la tarea.
+* Cómo explota el motor: Se conecta a la API de GitHub para gestionar el ciclo de vida del proyecto.
+* Qué hace: Permite revisar, validar y fusionar *Pull Requests* (PRs) viendo los comentarios de tus compañeros en el mismo lienzo donde editas el código. También te permite crear y asignar *Issues* (tareas o reportes de fallos) arrastrando líneas de código directamente a la tarea.
 
 ### GitLens — Git supercharged
 
 Aunque no es exclusiva de GitHub (funciona con cualquier servidor Git), es la herramienta más potente para entender la historia del código.
 
-* **Cómo explota el motor:** Se integra con los perfiles de GitHub para mostrarte la autoría línea por línea.
-* **Qué hace:** Al pararte sobre cualquier línea de código, te muestra un texto tenue que dice **quién la cambió, en qué commit y hace cuánto tiempo** (conocido como *Git Blame*). Incluye un mapa visual de ramas que facilita enormemente el manejo de repositorios complejos.
+* Cómo explota el motor: Se integra con los perfiles de GitHub para mostrarte la autoría línea por línea.
+* Qué hace: Al pararte sobre cualquier línea de código, te muestra un texto tenue que dice quién la cambió, en qué commit y hace cuánto tiempo (conocido como *Git Blame*). Incluye un mapa visual de ramas que facilita enormemente el manejo de repositorios complejos.
 
 ---
 
@@ -281,10 +281,10 @@ Aunque no es exclusiva de GitHub (funciona con cualquier servidor Git), es la he
 
 ### GitHub Actions (Oficial)
 
-Si utilizas el motor de GitHub para Integración y Despliegue Continuo (CI/CD), esta extensión es indispensable.
+Si utiliza el motor de GitHub para Integración y Despliegue Continuo (CI/CD), esta extensión es indispensable.
 
-* **Cómo explota el motor:** Se vincula con los servidores de ejecución de GitHub (*runners*) para monitorear tus flujos de trabajo.
-* **Qué hace:** Te permite gestionar tus archivos de configuración YAML, validar la sintaxis de tus *workflows* antes de subirlos, y ver en tiempo real si las pruebas automatizadas pasaron o fallaron tras hacer un `git push`.
+* Cómo explota el motor: Se vincula con los servidores de ejecución de GitHub (*runners*) para monitorear tus flujos de trabajo.
+* Qué hace: Te permite gestionar tus archivos de configuración YAML, validar la sintaxis de tus *workflows* antes de subirlos, y ver en tiempo real si las pruebas automatizadas pasaron o fallaron tras hacer un `git push`.
 
 ---
 
@@ -294,8 +294,8 @@ Si utilizas el motor de GitHub para Integración y Despliegue Continuo (CI/CD), 
 
 Permite saltar las limitaciones físicas de tu máquina local trasladando el entorno de desarrollo a la nube de GitHub.
 
-* **Cómo explota el motor:** Utiliza contenedores Linux hospedados directamente por GitHub en la nube.
-* **Qué hace:** Si necesitas probar un entorno de desarrollo pesado o compilar código en una máquina con más núcleos de CPU o RAM, esta extensión conecta tu VS Code local con una máquina virtual en la nube configurada exactamente con tu repositorio. Es ideal para trabajar en proyectos grandes desde computadoras portátiles ligeras.
+* Cómo explota el motor: Utiliza contenedores Linux hospedados directamente por GitHub en la nube.
+* Qué hace: Si se necesita probar un entorno de desarrollo pesado o compilar código en una máquina con más núcleos de CPU o RAM, esta extensión conecta tu VS Code local con una máquina virtual en la nube configurada exactamente con tu repositorio. Es ideal para trabajar en proyectos grandes desde computadoras portátiles ligeras.
 
 ---
 
@@ -303,7 +303,7 @@ Permite saltar las limitaciones físicas de tu máquina local trasladando el ent
 
 Para un flujo de trabajo optimizado y profesional, la combinación recomendada en tu barra lateral de VS Code debería incluir:
 
-1. **GitHub Copilot:** Para velocidad de escritura y resolución de dudas técnicas.
-2. **GitHub Pull Requests and Issues:** Para mantener el control de tus tareas y revisiones sin abrir el navegador web.
-3. **GitLens:** Para auditar el historial de cambios en proyectos colaborativos.
+1. GitHub Copilot: Para velocidad de escritura y resolución de dudas técnicas.
+2. GitHub Pull Requests and Issues: Para mantener el control de tus tareas y revisiones sin abrir el navegador web.
+3. GitLens: Para auditar el historial de cambios en proyectos colaborativos.
 
