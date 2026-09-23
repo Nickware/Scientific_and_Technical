@@ -1,263 +1,149 @@
-# Guía Completa: Instalación y Configuración SSH (Sin Password)
+# Introducción a SSH
 
-Paso a paso completo desde la instalación hasta la configuración de SSH sin contraseña.
+SSH (Secure Shell) es un protocolo para acceder de forma segura a equipos remotos a través de una red. Es esencial en administración de servidores, clústeres y trabajo distribuido.
 
-## PASO 1: INSTALACIÓN DEL SERVIDOR SSH
+[Volver al README principal](../README.md)
 
-### En el equipo servidor (destino):
+## Objetivos de aprendizaje
 
-#### Para Ubuntu/Debian:
-```bash
-# Actualizar sistema
-sudo apt update && sudo apt upgrade -y
+Al finalizar este módulo, el estudiante podrá:
+- entender qué es SSH y para qué sirve.
+- instalar cliente y servidor SSH.
+- generar y usar claves públicas/privadas.
+- configurar acceso sin contraseña.
+- aplicarlo en un entorno de cálculo distribuido.
 
-# Instalar servidor SSH
-sudo apt install openssh-server -y
+## Tabla de contenido
 
-# Verificar que el servicio esté activo
-sudo systemctl status ssh
-sudo systemctl enable ssh  # Para que inicie automáticamente
-```
+1. [Qué es SSH](#qué-es-ssh)
+2. [Requisitos previos](#requisitos-previos)
+3. [Instalación del servidor y cliente](#instalación-del-servidor-y-cliente)
+4. [Generar claves](#generar-claves)
+5. [Copiar clave pública](#copiar-clave-pública)
+6. [Verificar acceso sin contraseña](#verificar-acceso-sin-contraseña)
+7. [Configuración avanzada](#configuración-avanzada)
+8. [Buenas prácticas](#buenas-prácticas)
+9. [Validación y verificación](#validación-y-verificación)
 
-#### Para CentOS/RHEL/Fedora:
-```bash
-# Instalar servidor SSH
-sudo yum install openssh-server -y
-# o en versiones nuevas:
-sudo dnf install openssh-server -y
+## Qué es SSH
 
-# Iniciar y habilitar el servicio
-sudo systemctl start sshd
-sudo systemctl enable sshd
-sudo systemctl status sshd
-```
+SSH permite conectarse a otra máquina como si se estuviera dentro de una terminal local, pero con cifrado y autenticación segura.
 
-#### Verificar instalación:
-```bash
-# Verificar que SSH está escuchando en puerto 22
-sudo netstat -tuln | grep 22
-# Debe mostrar: tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN
-```
+Se usa para:
+- administrar servidores,
+- ejecutar programas en computadoras remotas,
+- acceder a nodos de cómputo,
+- y automatizar tareas en infraestructura distribuida.
 
----
+## Requisitos previos
 
-## PASO 2: INSTALACIÓN DEL CLIENTE SSH
+Necesitas:
+- un equipo cliente,
+- un equipo servidor o remoto,
+- acceso a la red,
+- permisos para instalar paquetes,
+- y una identificación del usuario remoto.
 
-### En el equipo cliente (desde donde te conectarás):
+## Instalación del servidor y cliente
 
-#### Para Ubuntu/Debian:
+Ubuntu/Debian:
+
 ```bash
 sudo apt update
-sudo apt install openssh-client -y
+sudo apt install openssh-server openssh-client -y
 ```
 
-#### Para CentOS/RHEL/Fedora:
+Verificar servicio:
+
 ```bash
-sudo yum install openssh-clients -y
-# o
-sudo dnf install openssh-clients -y
+sudo systemctl status ssh
 ```
 
-#### Verificar instalación:
+## Generar claves
+
+En el cliente:
+
 ```bash
-ssh -V
-# Debe mostrar: OpenSSH_versión...
-```
-
----
-
-##  PASO 3: CONFIGURACIÓN BÁSICA DEL SERVIDOR SSH
-
-### En el servidor, editar configuración:
-```bash
-sudo nano /etc/ssh/sshd_config
-```
-
-#### Configuración recomendada:
-```plaintext
-# Habilitar autenticación por clave
-PubkeyAuthentication yes
-
-# Permitir autenticación por contraseña (inicialmente)
-PasswordAuthentication yes
-
-# Opciones de seguridad
-PermitRootLogin no
-X11Forwarding no
-MaxAuthTries 3
-ClientAliveInterval 300
-ClientAliveCountMax 2
-```
-
-#### Reiniciar servicio SSH:
-```bash
-sudo systemctl restart sshd
-```
-
----
-
-## PASO 4: GENERAR CLAVES SSH EN EL CLIENTE
-
-### En el equipo cliente:
-```bash
-# Generar par de claves RSA (sin passphrase)
 ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
-
-# Verificar que se crearon las claves
 ls -la ~/.ssh/
-# Debería ver: id_rsa (clave privada) y id_rsa.pub (clave pública)
 ```
 
----
+Esto genera clave privada y pública.
 
-##  PASO 5: COPIAR CLAVE PÚBLICA AL SERVIDOR
+## Copiar clave pública
 
-### Método 1: Usar ssh-copy-id (Recomendado)
 ```bash
-# Reemplaza "usuario" y "ip_servidor" por tus datos reales
 ssh-copy-id -i ~/.ssh/id_rsa.pub usuario@ip_servidor
-
-# Ejemplo:
-ssh-copy-id -i ~/.ssh/id_rsa.pub juan@192.168.1.100
 ```
 
-### Método 2: Manual (si ssh-copy-id no funciona)
-```bash
-# Copiar contenido de la clave pública
-cat ~/.ssh/id_rsa.pub
+También puede hacerse manualmente añadiendo la clave a `~/.ssh/authorized_keys`.
 
-# En el servidor, pegar este contenido en:
-mkdir -p ~/.ssh
-chmod 700 ~/.ssh
-nano ~/.ssh/authorized_keys
-chmod 600 ~/.ssh/authorized_keys
-```
+## Verificar acceso sin contraseña
 
----
-
-##  PASO 6: VERIFICAR CONEXIÓN SIN CONTRASEÑA
-
-### Desde el cliente, probar conexión:
 ```bash
 ssh usuario@ip_servidor
-# Debe conectarse SIN pedir contraseña
 ```
 
-### Si pide contraseña, verificar:
-```bash
-# Verificar permisos en el servidor
-ssh usuario@ip_servidor "chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+Si la conexión se abre sin pedir contraseña, la configuración funcionó.
 
-# Verificar que la clave esté en authorized_keys
-ssh usuario@ip_servidor "cat ~/.ssh/authorized_keys"
-```
+## Configuración avanzada
 
----
+Archivo `~/.ssh/config`:
 
-##  PASO 7: CONFIGURACIÓN AVANZADA (OPCIONAL)
-
-### Crear archivo de configuración SSH en cliente:
-```bash
-nano ~/.ssh/config
-```
-
-#### Agregar configuración:
-```plaintext
+```text
 Host servidor1
     HostName 192.168.1.100
     User juan
     IdentityFile ~/.ssh/id_rsa
     Port 22
-
-Host servidor2
-    HostName 192.168.1.101
-    User maria
-    IdentityFile ~/.ssh/id_rsa
-    Port 22
 ```
 
-#### Ahora puedes conectarte con:
+Esto permite acceder con:
+
 ```bash
-ssh servidor1  # En lugar de ssh juan@192.168.1.100
-ssh servidor2  # En lugar de ssh maria@192.168.1.101
+ssh servidor1
 ```
+
+## Buenas prácticas
+
+- nunca compartas la clave privada,
+- usa autenticación por claves en lugar de contraseñas,
+- deshabilita acceso por contraseña solo después de verificar que todo funciona,
+- revisa permisos de `~/.ssh` y `authorized_keys`,
+- usa usuarios con privilegios mínimos por seguridad.
+
+## Validación y verificación
+
+Comandos útiles:
+
+```bash
+ssh -V
+ssh usuario@ip_servidor "whoami"
+ssh usuario@ip_servidor "ls -la ~/.ssh"
+```
+
+Si los comandos responden y no piden contraseña, la configuración está correcta.
+
+## Solución de problemas comunes
+
+- `Permission denied`: revisa permisos en la carpeta `.ssh` y clave pública.
+- `No route to host`: revisa red y firewall.
+- `Connection refused`: revisa que el servicio SSH esté activo.
+
+## Reproducibilidad
+
+SSH es un pilar para trabajo distribuido y automatización. La seguridad y la repetibilidad de la conexión permiten ejecutar tareas remotas sin intervención manual, algo clave en clústeres y entornos científicos.
+
+## Siguientes pasos
+
+- revisar [introduction_to_mpi/README.md](../introduction_to_mpi/README.md)
+- revisar [essentials/README.md](../essentials/README.md)
+- revisar [introduction_makefile/README.md](../introduction_makefile/README.md)
 
 ---
 
-##  PASO 8: DESHABILITAR ACCESO POR CONTRASEÑA (SEGURIDAD)
+Este módulo es el puente para trabajar con máquinas remotas y coordinar tareas en entornos distribuidos.
 
-> SOLO después de verificar que las claves SSH funcionan:
-
-#### En el servidor, editar configuración:
-```bash
-sudo nano /etc/ssh/sshd_config
-```
-
-#### Cambiar estas líneas:
-```plaintext
-PasswordAuthentication no
-ChallengeResponseAuthentication no
-UsePAM no
-```
-
-#### Reiniciar servicio SSH:
-```bash
-sudo systemctl restart sshd
-```
-
----
-
-##  PASO 9: SCRIPT AUTOMATIZADO
-
-### Script para configurar múltiples servidores:
-
-#### Crear archivo `servers.txt`:
-```plaintext
-usuario1@192.168.1.100
-usuario2@192.168.1.101
-usuario3@192.168.1.102
-```
-
-#### Script `configurar_ssh.sh`:
-```bash
-#!/bin/bash
-
-# Generar clave SSH si no existe
-if [ ! -f ~/.ssh/id_rsa ]; then
-    ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""
-fi
-
-# Configurar cada servidor
-while IFS= read -r servidor; do
-    echo "=== Configurando $servidor ==="
-    
-    # Copiar clave pública
-    ssh-copy-id -i ~/.ssh/id_rsa.pub "$servidor"
-    
-    # Verificar conexión
-    ssh "$servidor" "echo '✓ Conexión SSH sin contraseña exitosa'"
-    
-    echo "=== $servidor configurado ==="
-    echo
-done < servers.txt
-
-echo "Todos los servidores configurados"
-```
-
-#### Hacer ejecutable y ejecutar:
-```bash
-chmod +x configurar_ssh.sh
-./configurar_ssh.sh
-```
-
----
-
-## SOLUCIÓN DE PROBLEMAS COMUNES
-
-### Error: "port 22: No route to host"
-Este error significa que el cliente no puede alcanzar el servidor en el puerto 22.
-
-#### Posibles causas y soluciones:
 
 1. Verificar que el servidor SSH está corriendo:
 ```bash
