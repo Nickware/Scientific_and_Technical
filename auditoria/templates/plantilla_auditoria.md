@@ -21,7 +21,7 @@ Este documento establece la estructura que tendrán los informes de los reposito
 
 ### 2.1 Objetivo
 
-[Describir qué se pretende evaluar.]
+[Describir qué se pretende evaluar.]Este documento es especialmente importante porque establece la estructura que tendrán los informes de los repositorios examinados.
 
 ### 2.2 Alcance
 
