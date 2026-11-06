@@ -1,15 +1,16 @@
+
 #!/usr/bin/env bash
 
 # ============================================================
 # Proyecto: auditoria
 # Modulo:   02_git.sh
-# Version:  0.1.1
+# Version:  0.1.2
 # Funcion:  Auditoria del control de versiones Git
 # ============================================================
 
 set -Eeuo pipefail
 
-VERSION="0.1.1"
+VERSION="0.1.2"
 
 # ------------------------------------------------------------
 # Variables globales
@@ -255,9 +256,7 @@ identify_repository() {
 
 prepare_output() {
 
-    local output_parent
-
-    output_parent=$(dirname "$OUTPUT_DIR")
+    local protected_root
 
     # Resolver la ruta sin crearla.
 
@@ -265,12 +264,17 @@ prepare_output() {
 
     # Impedir que la salida quede dentro del repositorio.
 
-    local protected_root
-
     if [[ -n "$REPOSITORY_ROOT" ]]; then
         protected_root="$REPOSITORY_ROOT"
     else
         protected_root="$REPOSITORY"
+    fi
+
+    if [[ "$OUTPUT_DIR" == "$protected_root" ]]; then
+
+        error "El directorio de salida no puede ser la raiz del repositorio."
+        return 2
+
     fi
 
     case "$OUTPUT_DIR/" in
@@ -487,7 +491,7 @@ get_recent_history() {
 
         RECENT_HISTORY=$(
             git -C "$REPOSITORY" log -10 \
-                --pretty=format:'| %h | %cI | %an | %s |%n'
+                --pretty=format:'| %h | %cI | %an | %s |'
         )
 
     else
