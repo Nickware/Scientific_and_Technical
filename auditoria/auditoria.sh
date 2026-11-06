@@ -1,10 +1,11 @@
+
 #!/usr/bin/env bash
 
 # ============================================================
 # AUDITORIA
-# Herramienta modular para auditoría técnica de repositorios
+# Herramienta modular para auditoria tecnica de repositorios
 #
-# Version: 0.1.0
+# Version: 0.2.0
 # Autor: Nickware
 # Lenguaje: Bash
 # ============================================================
@@ -12,16 +13,37 @@
 set -Eeuo pipefail
 
 # ------------------------------------------------------------
-# 1. Configuración general
+# 1. Configuracion general
 # ------------------------------------------------------------
 
-VERSION="0.1.0"
+VERSION="0.2.0"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 
 REPOSITORY=""
+REPOSITORY_NAME=""
 OUTPUT_DIR=""
+SUMMARY_FILE=""
+
 TIMESTAMP="$(date '+%Y-%m-%d_%H-%M-%S')"
+
+INVENTORY_MODULE="${SCRIPT_DIR}/scripts/01_inventario.sh"
+GIT_MODULE="${SCRIPT_DIR}/scripts/02_git.sh"
+
+INVENTORY_VERSION="0.1.0"
+GIT_VERSION="0.1.2"
+
+INVENTORY_STATUS="PENDIENTE"
+GIT_STATUS="PENDIENTE"
+
+INVENTORY_EXIT_CODE="-"
+GIT_EXIT_CODE="-"
+
+INVENTORY_REPORT=""
+GIT_REPORT=""
+
+AUDIT_STATUS="PENDIENTE"
+AUDIT_EXIT_CODE=0
 
 # ------------------------------------------------------------
 # 2. Funciones de interfaz
@@ -31,7 +53,7 @@ show_banner() {
 
     echo "============================================================"
     echo "                    AUDITORIA v${VERSION}"
-    echo "       Herramienta modular de auditoría de software"
+    echo "       Herramienta modular de auditoria de software"
     echo "============================================================"
     echo
 
@@ -39,7 +61,7 @@ show_banner() {
 
 show_help() {
 
-    cat << EOF
+    cat <<EOF
 
 AUDITORIA v${VERSION}
 
@@ -47,39 +69,42 @@ Uso:
 
     ./auditoria.sh [OPCIONES] REPOSITORIO
 
-Descripción:
+Descripcion:
 
-    Prepara un entorno de auditoría para un repositorio
-    de software y genera un registro inicial de ejecución.
+    Ejecuta los modulos de inventario y auditoria Git
+    sobre el directorio indicado y genera un resumen.
 
 Argumentos:
 
-    REPOSITORIO       Ruta del repositorio que se evaluará.
+    REPOSITORIO        Directorio que se desea auditar.
 
 Opciones:
 
-    -o, --output RUTA Directorio donde se guardarán los resultados.
+    -o, --output RUTA  Directorio de resultados.
+    -h, --help         Muestra esta ayuda.
+    -v, --version      Muestra la version.
 
-    -h, --help        Muestra esta ayuda.
+Ejemplo:
 
-    -v, --version     Muestra la versión del programa.
+    ./auditoria.sh ../../data_science/project_1
 
-Ejemplos:
-
-    ./auditoria.sh ../data_science
-
-    ./auditoria.sh ../data_science/project_1
-
-    ./auditoria.sh ../data_science --output ./output/project_1
+    ./auditoria.sh ../../data_science/project_1 \\
+        --output ./output/prueba_integracion
 
 EOF
 
 }
 
 show_version() {
-
     echo "AUDITORIA v${VERSION}"
+}
 
+info() {
+    echo "[INFO] $*"
+}
+
+error() {
+    echo "[ERROR] $*" >&2
 }
 
 # ------------------------------------------------------------
@@ -93,22 +118,20 @@ parse_arguments() {
         case "$1" in
 
             -h|--help)
-
                 show_help
                 exit 0
                 ;;
 
             -v|--version)
-
                 show_version
                 exit 0
                 ;;
 
             -o|--output)
 
-                if [[ $# -lt 2 ]]; then
-                    echo "ERROR: Falta la ruta de salida."
-                    exit 1
+                if [[ $# -lt 2 || -z "$2" ]]; then
+                    error "Falta la ruta de salida."
+                    return 1
                 fi
 
                 OUTPUT_DIR="$2"
@@ -116,17 +139,15 @@ parse_arguments() {
                 ;;
 
             -*)
-
-                echo "ERROR: Opción desconocida: $1"
-                echo "Utilice --help para consultar las opciones."
-                exit 1
+                error "Opcion desconocida: $1"
+                return 1
                 ;;
 
             *)
 
                 if [[ -n "$REPOSITORY" ]]; then
-                    echo "ERROR: Se indicó más de un repositorio."
-                    exit 1
+                    error "Se indico mas de un repositorio."
+                    return 1
                 fi
 
                 REPOSITORY="$1"
@@ -140,236 +161,418 @@ parse_arguments() {
 }
 
 # ------------------------------------------------------------
-# 4. Validación del repositorio
+# 4. Validacion del repositorio
 # ------------------------------------------------------------
 
 validate_repository() {
 
     if [[ -z "$REPOSITORY" ]]; then
-
-        echo "ERROR: No se indicó un repositorio."
-        echo "Uso: ./auditoria.sh [OPCIONES] REPOSITORIO"
-
-        exit 1
-
+        error "No se indico un repositorio."
+        return 1
     fi
 
     if [[ ! -d "$REPOSITORY" ]]; then
-
-        echo "ERROR: El directorio no existe:"
-        echo "$REPOSITORY"
-
-        exit 1
-
+        error "El directorio no existe: $REPOSITORY"
+        return 1
     fi
 
     REPOSITORY="$(cd "$REPOSITORY" && pwd -P)"
+    REPOSITORY_NAME="$(basename "$REPOSITORY")"
 
     if [[ ! -r "$REPOSITORY" || ! -x "$REPOSITORY" ]]; then
-
-        echo "ERROR: No hay permisos suficientes para acceder al repositorio."
-
-        exit 1
-
+        error "No hay permisos suficientes para acceder al repositorio."
+        return 1
     fi
 
 }
 
 # ------------------------------------------------------------
-# 5. Configuración y directorios
+# 5. Configuracion
 # ------------------------------------------------------------
 
 load_configuration() {
 
-    CONFIG_FILE="${SCRIPT_DIR}/config/auditoria.conf"
+    local config_file="${SCRIPT_DIR}/config/auditoria.conf"
 
-    if [[ -f "$CONFIG_FILE" ]]; then
-
-        echo "Configuración encontrada: $CONFIG_FILE"
-
+    if [[ -f "$config_file" ]]; then
+        info "Configuracion encontrada: $config_file"
+        info "Su aplicacion automatica aun no esta implementada."
     else
-
-        echo "AVISO: No se encontró auditoria.conf."
-        echo "Se utilizará la configuración predeterminada."
-
+        info "No se encontro auditoria.conf."
+        info "Se utilizara la configuracion predeterminada."
     fi
 
 }
 
+# ------------------------------------------------------------
+# 6. Preparacion del directorio de salida
+# ------------------------------------------------------------
+
 prepare_output() {
 
-    REPOSITORY_NAME="$(basename "$REPOSITORY")"
-
-    # Directorio de salida predeterminado
-
     if [[ -z "$OUTPUT_DIR" ]]; then
-
         OUTPUT_DIR="${SCRIPT_DIR}/output/${REPOSITORY_NAME}_${TIMESTAMP}"
-
     fi
 
-    # Crear directorio de resultados
+    # Canonicalizar la ruta, incluso si todavia no existe.
 
-    mkdir -p "$OUTPUT_DIR"
+    OUTPUT_DIR="$(realpath -m -- "$OUTPUT_DIR")"
 
-    OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd -P)"
-
-    # Evitar escribir dentro del repositorio auditado
+    # No crear resultados dentro del directorio auditado.
 
     if [[ "$OUTPUT_DIR" == "$REPOSITORY" ||
           "$OUTPUT_DIR" == "$REPOSITORY/"* ]]; then
 
-        echo "ERROR: El directorio de resultados no puede estar"
-        echo "dentro del repositorio auditado."
+        error "La salida no puede estar dentro del repositorio auditado."
+        return 1
+    fi
 
-        exit 1
+    # Proteger tambien la raiz Git cuando el directorio
+    # auditado es un subdirectorio de un repositorio mayor.
+
+    local git_root=""
+
+    if command -v git >/dev/null 2>&1; then
+
+        git_root="$(
+            git -C "$REPOSITORY" rev-parse --show-toplevel 2>/dev/null
+        )" || git_root=""
+
+        if [[ -n "$git_root" ]]; then
+
+            git_root="$(cd "$git_root" && pwd -P)"
+
+            if [[ "$OUTPUT_DIR" == "$git_root" ||
+                  "$OUTPUT_DIR" == "$git_root/"* ]]; then
+
+                error "La salida no puede estar dentro de la raiz Git."
+                return 1
+            fi
+
+        fi
 
     fi
 
-    # Evitar sobrescribir resultados anteriores
+    # No sobrescribir resultados existentes.
 
-    if [[ -n "$(find "$OUTPUT_DIR" -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+    if [[ -e "$OUTPUT_DIR" ]]; then
 
-        echo "ERROR: El directorio de salida no está vacío:"
-        echo "$OUTPUT_DIR"
-        echo
-        echo "Utilice un directorio vacío para esta auditoría."
+        if [[ ! -d "$OUTPUT_DIR" ]]; then
+            error "La ruta de salida existe y no es un directorio."
+            return 1
+        fi
 
-        exit 1
+        if [[ -n "$(
+            find "$OUTPUT_DIR" -mindepth 1 -maxdepth 1 -print -quit
+        )" ]]; then
+
+            error "El directorio de salida no esta vacio: $OUTPUT_DIR"
+            return 1
+        fi
 
     fi
+
+    mkdir -p -- "$OUTPUT_DIR"
+
+    OUTPUT_DIR="$(cd "$OUTPUT_DIR" && pwd -P)"
+    SUMMARY_FILE="${OUTPUT_DIR}/00_RESUMEN_GENERAL.md"
+
+    info "Directorio de salida: $OUTPUT_DIR"
 
 }
 
 # ------------------------------------------------------------
-# 6. Ejecución de módulos
+# 7. Ejecucion individual de modulos
+# ------------------------------------------------------------
+
+# Cada modulo recibe un directorio de salida vacio.
+#
+# Si termina correctamente, su informe se mueve al
+# directorio principal de resultados.
+#
+# La funcion devuelve:
+#   0: modulo ejecutado y reporte recuperado
+#   1: modulo ausente o fallo en preparacion
+#   N: codigo de error del modulo
+#   4: no se genero el informe esperado
+
+execute_module() {
+
+    local module_path="$1"
+    local report_name="$2"
+    local module_label="$3"
+
+    local staging_dir=""
+    local module_exit=0
+
+    echo
+    info "Ejecutando: $module_label"
+
+    if [[ ! -f "$module_path" ]]; then
+        error "Modulo no encontrado: $module_path"
+        return 1
+    fi
+
+    staging_dir="$(mktemp -d "${OUTPUT_DIR}/.modulo_XXXXXX")" || {
+        error "No se pudo preparar el directorio temporal."
+        return 1
+    }
+
+    if bash "$module_path" \
+        --repository "$REPOSITORY" \
+        --output "$staging_dir"; then
+
+        module_exit=0
+
+    else
+
+        module_exit=$?
+
+        error "$module_label finalizo con codigo $module_exit"
+        return "$module_exit"
+
+    fi
+
+    if [[ ! -f "${staging_dir}/${report_name}" ]]; then
+
+        error "$module_label no genero el informe esperado."
+        return 4
+
+    fi
+
+    if ! mv -- \
+        "${staging_dir}/${report_name}" \
+        "${OUTPUT_DIR}/${report_name}"; then
+
+        error "No se pudo trasladar el informe de $module_label."
+        return 4
+
+    fi
+
+    # Eliminar el directorio temporal solamente si esta vacio.
+    # Si contiene otros archivos, conservarlo para inspeccion.
+
+    rmdir -- "$staging_dir" 2>/dev/null || {
+        info "Se conservaron archivos auxiliares en $staging_dir"
+    }
+
+    info "$module_label completado."
+    return 0
+
+}
+
+# ------------------------------------------------------------
+# 8. Ejecucion de modulos
 # ------------------------------------------------------------
 
 run_modules() {
 
+    local result=0
+
     echo
-    echo "FASE DE ANÁLISIS"
+    echo "FASE DE ANALISIS"
     echo "------------------------------------------------------------"
 
-    echo "Los módulos de auditoría todavía no están implementados."
-    echo "La integración se realizará progresivamente."
+    # Modulo 01: Inventario
+
+    if execute_module \
+        "$INVENTORY_MODULE" \
+        "01_INVENTARIO.md" \
+        "01 - Inventario"; then
+
+        INVENTORY_STATUS="COMPLETADO"
+        INVENTORY_EXIT_CODE=0
+        INVENTORY_REPORT="01_INVENTARIO.md"
+
+    else
+
+        result=$?
+
+        INVENTORY_STATUS="ERROR"
+        INVENTORY_EXIT_CODE="$result"
+
+    fi
+
+    # Modulo 02: Git
+
+    if execute_module \
+        "$GIT_MODULE" \
+        "02_AUDITORIA_GIT.md" \
+        "02 - Auditoria Git"; then
+
+        GIT_STATUS="COMPLETADO"
+        GIT_EXIT_CODE=0
+        GIT_REPORT="02_AUDITORIA_GIT.md"
+
+    else
+
+        result=$?
+
+        GIT_STATUS="ERROR"
+        GIT_EXIT_CODE="$result"
+
+    fi
 
 }
 
 # ------------------------------------------------------------
-# 7. Consolidación de resultados
+# 9. Consolidacion de resultados
 # ------------------------------------------------------------
 
 collect_results() {
 
-    echo
-    echo "Recopilación de resultados iniciales..."
+    if [[ "$INVENTORY_STATUS" == "COMPLETADO" &&
+          "$GIT_STATUS" == "COMPLETADO" ]]; then
 
-}
+        AUDIT_STATUS="COMPLETADA"
+        AUDIT_EXIT_CODE=0
 
-generate_summary() {
+    else
 
-    SUMMARY_FILE="${OUTPUT_DIR}/00_RESUMEN_GENERAL.md"
+        AUDIT_STATUS="PARCIAL / CON ERRORES"
+        AUDIT_EXIT_CODE=2
 
-    cat > "$SUMMARY_FILE" << EOF
-# RESUMEN GENERAL DE AUDITORÍA
-
-## 1. Identificación
-
-| Campo | Información |
-|---|---|
-| Proyecto | ${REPOSITORY_NAME} |
-| Ruta del repositorio | ${REPOSITORY} |
-| Fecha de ejecución | $(date '+%Y-%m-%d %H:%M:%S') |
-| Versión de auditoria | ${VERSION} |
-| Estado | Preparación completada |
-
-## 2. Objetivo
-
-Preparación inicial del entorno para realizar la auditoría
-técnica del repositorio.
-
-## 3. Alcance
-
-En esta versión se realizan las siguientes operaciones:
-
-- Validación del directorio del repositorio.
-- Identificación del proyecto.
-- Preparación del directorio de resultados.
-- Registro de información inicial.
-
-## 4. Estado de los módulos
-
-Los módulos de análisis técnico se incorporarán progresivamente.
-
-| Módulo | Estado |
-|---|---|
-| Inventario | Pendiente |
-| Git | Pendiente |
-| Lenguajes | Pendiente |
-| Dependencias | Pendiente |
-| Documentación | Pendiente |
-| Pruebas | Pendiente |
-| Métricas | Pendiente |
-
-## 5. Observaciones
-
-Esta versión no modifica ni ejecuta archivos del repositorio evaluado.
-
-El análisis técnico detallado será incorporado en versiones posteriores.
-
----
-
-**AUDITORIA v${VERSION}**
-
-EOF
+    fi
 
 }
 
 # ------------------------------------------------------------
-# 8. Finalización
+# 10. Generacion del resumen general
+# ------------------------------------------------------------
+
+generate_summary() {
+
+    local inventory_link="No generado"
+    local git_link="No generado"
+
+    if [[ -n "$INVENTORY_REPORT" ]]; then
+        inventory_link="[01_INVENTARIO.md](01_INVENTARIO.md)"
+    fi
+
+    if [[ -n "$GIT_REPORT" ]]; then
+        git_link="[02_AUDITORIA_GIT.md](02_AUDITORIA_GIT.md)"
+    fi
+
+    cat > "$SUMMARY_FILE" <<EOF
+# RESUMEN GENERAL DE AUDITORIA
+
+## 1. Identificacion
+
+| Campo | Informacion |
+|---|---|
+| Proyecto | ${REPOSITORY_NAME} |
+| Ruta examinada | ${REPOSITORY} |
+| Fecha de ejecucion | $(date '+%Y-%m-%d %H:%M:%S') |
+| Version de auditoria | ${VERSION} |
+| Estado general | ${AUDIT_STATUS} |
+
+## 2. Objetivo
+
+Ejecutar una auditoria tecnica inicial del proyecto,
+recopilando evidencia estructural y de control de versiones.
+
+## 3. Alcance
+
+Esta version ejecuta dos modulos independientes:
+
+- Inventario de archivos y directorios.
+- Analisis del control de versiones Git.
+
+La auditoria Git puede abarcar un repositorio mayor
+que el directorio solicitado.
+
+No se ejecuta codigo del proyecto auditado.
+
+## 4. Estado de los modulos
+
+| Modulo | Version prevista | Estado | Codigo de salida |
+|---|---|---|---:|
+| 01 - Inventario | ${INVENTORY_VERSION} | ${INVENTORY_STATUS} | ${INVENTORY_EXIT_CODE} |
+| 02 - Auditoria Git | ${GIT_VERSION} | ${GIT_STATUS} | ${GIT_EXIT_CODE} |
+| 03 - Lenguajes | - | NO IMPLEMENTADO | - |
+| 04 - Dependencias | - | NO IMPLEMENTADO | - |
+| 05 - Documentacion | - | NO IMPLEMENTADO | - |
+| 06 - Pruebas | - | NO IMPLEMENTADO | - |
+| 07 - Metricas | - | NO IMPLEMENTADO | - |
+
+## 5. Informes generados
+
+| Informe | Archivo |
+|---|---|
+| Inventario | ${inventory_link} |
+| Auditoria Git | ${git_link} |
+
+## 6. Observaciones y limitaciones
+
+- Los modulos se ejecutan independientemente.
+- El fallo de un modulo no impide intentar ejecutar el siguiente.
+- Los resultados se generan fuera del repositorio auditado.
+- No se realizan modificaciones deliberadas al proyecto auditado.
+- Los informes describen evidencia, no certifican calidad de software.
+- Las versiones de los modulos se registran segun la configuracion del orquestador.
+
+## 7. Resultado final
+
+**Estado:** ${AUDIT_STATUS}
+
+**Codigo de salida del orquestador:** ${AUDIT_EXIT_CODE}
+
+---
+
+**AUDITORIA v${VERSION}**
+EOF
+
+    info "Resumen generado: $SUMMARY_FILE"
+
+}
+
+# ------------------------------------------------------------
+# 11. Finalizacion
 # ------------------------------------------------------------
 
 finish_audit() {
 
     echo
     echo "============================================================"
-    echo "              PREPARACIÓN COMPLETADA"
+    echo "             RESULTADO DE LA AUDITORIA"
     echo "============================================================"
 
     echo
-    echo "Repositorio evaluado:"
-    echo "$REPOSITORY"
+    echo "Proyecto: $REPOSITORY_NAME"
+    echo "Repositorio: $REPOSITORY"
+    echo "Resultados: $OUTPUT_DIR"
 
     echo
-    echo "Directorio de resultados:"
-    echo "$OUTPUT_DIR"
+    echo "Inventario: $INVENTORY_STATUS"
+    echo "Git:        $GIT_STATUS"
 
     echo
-    echo "Informe generado:"
-    echo "$SUMMARY_FILE"
+    echo "Estado general: $AUDIT_STATUS"
+    echo "Resumen: $SUMMARY_FILE"
 
     echo
     echo "AUDITORIA v${VERSION}"
     echo
 
+    return "$AUDIT_EXIT_CODE"
+
 }
 
 # ------------------------------------------------------------
-# 9. Programa principal
+# 12. Programa principal
 # ------------------------------------------------------------
 
 main() {
 
-    parse_arguments "$@"
+    parse_arguments "$@" || return 1
 
     show_banner
 
-    validate_repository
+    validate_repository || return 1
 
     load_configuration
 
-    prepare_output
+    prepare_output || return 1
 
     run_modules
 
