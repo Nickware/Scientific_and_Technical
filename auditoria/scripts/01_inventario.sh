@@ -281,9 +281,9 @@ collect_inventory() {
 
     FIND_EXPRESSION="$(build_find_expression)"
 
-    # Archivos
+        # Archivos
 
-    find "$REPOSITORY" \
+    find "$REPOSITORY" -mindepth 1 \
         \( -type d \( \
             -name .git -o \
             -name .venv -o \
@@ -297,7 +297,7 @@ collect_inventory() {
 
     # Directorios
 
-    find "$REPOSITORY" \
+    find "$REPOSITORY" -mindepth 1 \
         \( -type d \( \
             -name .git -o \
             -name .venv -o \
@@ -307,8 +307,8 @@ collect_inventory() {
             -name build -o \
             -name dist \
         \) -prune \) \
-        -o -mindepth 1 -type d -print0 > "$TEMP_DIR/directories"
-
+        -o -type d -print0 > "$TEMP_DIR/directories"
+    
     # Conteos
 
     TOTAL_FILES=0
