@@ -263,7 +263,7 @@ prepare_output() {
         fi
 
         if [[ -n "$(
-            find "$OUTPUT_DIR" -mindepth 1 -maxdepth 1 -print -quit
+            find "$REPOSITORY" -mindepth 1 -type d -print -quit
         )" ]]; then
 
             error "El directorio de salida no esta vacio: $OUTPUT_DIR"
