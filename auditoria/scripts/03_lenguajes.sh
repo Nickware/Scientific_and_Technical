@@ -445,29 +445,49 @@ write_sorted_distribution() {
 
         LANGUAGE)
 
-            while IFS= read -r key; do
+            if [[ ${#LANGUAGE_COUNTS[@]} -gt 0 ]]; then
 
-                count="${LANGUAGE_COUNTS[$key]}"
-                pct="$(percentage "$count" "$denominator")"
+                while IFS= read -r key; do
 
-                printf '| %s | %s | %s%% |\n' \
-                    "$key" "$count" "$pct" >> "$REPORT_FILE"
+                    count="${LANGUAGE_COUNTS[$key]}"
+                    pct="$(percentage "$count" "$denominator")"
 
-            done < <(printf '%s\n' "${!LANGUAGE_COUNTS[@]}" | sort)
+                    printf '| %s | %s | %s%% |\n' \
+                        "$key" "$count" "$pct" >> "$REPORT_FILE"
+
+                done < <(
+                    printf '%s\n' "${!LANGUAGE_COUNTS[@]}" | sort
+                )
+
+            else
+
+                printf '| Ninguno | 0 | 0.00%% |\n' >> "$REPORT_FILE"
+
+            fi
 
             ;;
 
         TECHNOLOGY)
 
-            while IFS= read -r key; do
+            if [[ ${#TECHNOLOGY_COUNTS[@]} -gt 0 ]]; then
 
-                count="${TECHNOLOGY_COUNTS[$key]}"
-                pct="$(percentage "$count" "$denominator")"
+                while IFS= read -r key; do
 
-                printf '| %s | %s | %s%% |\n' \
-                    "$key" "$count" "$pct" >> "$REPORT_FILE"
+                    count="${TECHNOLOGY_COUNTS[$key]}"
+                    pct="$(percentage "$count" "$denominator")"
 
-            done < <(printf '%s\n' "${!TECHNOLOGY_COUNTS[@]}" | sort)
+                    printf '| %s | %s | %s%% |\n' \
+                        "$key" "$count" "$pct" >> "$REPORT_FILE"
+
+                done < <(
+                    printf '%s\n' "${!TECHNOLOGY_COUNTS[@]}" | sort
+                )
+
+            else
+
+                printf '| Ninguno | 0 | 0.00%% |\n' >> "$REPORT_FILE"
+
+            fi
 
             ;;
 
