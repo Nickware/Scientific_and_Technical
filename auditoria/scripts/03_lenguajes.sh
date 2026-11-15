@@ -4,25 +4,29 @@
 # ============================================================
 # AUDITORIA - MODULO 03
 # IDENTIFICACION Y DISTRIBUCION DE LENGUAJES
-# Version: 0.1.0
+# Version: 0.1.1
 # Especificacion: EF-003
 # ============================================================
 
 set -Eeuo pipefail
 
-VERSION="0.1.0"
+VERSION="0.1.1"
 MODULE_NAME="03_lenguajes.sh"
 REPORT_NAME="03_LENGUAJES.md"
 
 REPOSITORY=""
 OUTPUT_DIR=""
 TEMP_DIR=""
+REPORT_FILE=""
 
 TOTAL_FILES=0
 CLASSIFIED_FILES=0
+LANGUAGE_TOTAL=0
+TECHNOLOGY_TOTAL=0
 UNKNOWN_FILES=0
 AMBIGUOUS_FILES=0
 EXTENSIONLESS_FILES=0
+FILES_WITH_EXTENSION=0
 
 declare -A LANGUAGE_COUNTS=()
 declare -A TECHNOLOGY_COUNTS=()
@@ -46,33 +50,43 @@ EOF
 }
 
 parse_arguments() {
+
     while [[ $# -gt 0 ]]; do
+
         case "$1" in
+
             --repository)
                 [[ $# -ge 2 ]] || {
                     echo "[ERROR] Falta la ruta del repositorio."
                     return 1
                 }
+
                 REPOSITORY="$2"
                 shift 2
                 ;;
+
             --output)
                 [[ $# -ge 2 ]] || {
                     echo "[ERROR] Falta la ruta de salida."
                     return 1
                 }
+
                 OUTPUT_DIR="$2"
                 shift 2
                 ;;
+
             -h|--help)
                 show_usage
                 exit 0
                 ;;
+
             *)
                 echo "[ERROR] Argumento desconocido: $1"
                 return 1
                 ;;
+
         esac
+
     done
 
     [[ -n "$REPOSITORY" && -n "$OUTPUT_DIR" ]] || {
@@ -86,6 +100,7 @@ parse_arguments() {
 # ------------------------------------------------------------
 
 validate_repository() {
+
     if [[ ! -d "$REPOSITORY" ]]; then
         echo "[ERROR] El repositorio no es un directorio valido."
         return 1
@@ -97,6 +112,7 @@ validate_repository() {
 }
 
 validate_output() {
+
     local repo_root
     local output_path
     local git_root=""
@@ -106,37 +122,48 @@ validate_output() {
 
     if git -C "$REPOSITORY" rev-parse --show-toplevel \
         >/dev/null 2>&1; then
+
         git_root="$(git -C "$REPOSITORY" rev-parse --show-toplevel)"
+
     fi
 
     if [[ "$output_path" == "$repo_root" ||
           "$output_path" == "$repo_root/"* ]]; then
+
         echo "[ERROR] La salida no puede estar dentro del repositorio."
         return 2
+
     fi
 
     if [[ -n "$git_root" &&
           ( "$output_path" == "$git_root" ||
             "$output_path" == "$git_root/"* ) ]]; then
+
         echo "[ERROR] La salida no puede estar dentro de la raiz Git."
         return 2
+
     fi
 
     if [[ -e "$output_path" && ! -d "$output_path" ]]; then
+
         echo "[ERROR] La ruta de salida no es un directorio."
         return 1
+
     fi
 
     if [[ -d "$output_path" ]] &&
        [[ -n "$(find "$output_path" -mindepth 1 -maxdepth 1 -print -quit)" ]]; then
+
         echo "[ERROR] El directorio de salida no esta vacio."
         return 1
+
     fi
 
     OUTPUT_DIR="$output_path"
 }
 
 prepare_environment() {
+
     mkdir -p "$OUTPUT_DIR"
 
     TEMP_DIR="$(mktemp -d)"
@@ -149,11 +176,10 @@ prepare_environment() {
 # ------------------------------------------------------------
 
 classify_extension() {
+
     local extension="$1"
 
     case "$extension" in
-
-        # Lenguajes
 
         py|pyw|pyi)
             echo "LANGUAGE:Python"
@@ -239,13 +265,9 @@ classify_extension() {
             echo "LANGUAGE:Perl"
             ;;
 
-        # Extensiones ambiguas
-
         m|h)
             echo "AMBIGUOUS:$extension"
             ;;
-
-        # Formatos tecnologicos
 
         ipynb)
             echo "TECHNOLOGY:Notebook Jupyter"
@@ -290,6 +312,7 @@ classify_extension() {
         *)
             echo "UNKNOWN:$extension"
             ;;
+
     esac
 }
 
@@ -298,6 +321,7 @@ classify_extension() {
 # ------------------------------------------------------------
 
 collect_inventory() {
+
     local file
     local filename
     local extension
@@ -325,10 +349,20 @@ collect_inventory() {
 
         filename="${file##*/}"
 
-        if [[ "$filename" != *.* || "$filename" == .* && "$filename" != *.*.* ]]; then
+        # Archivos sin extension:
+        # incluye nombres ocultos como .gitignore.
+
+        if [[ "$filename" != *.* ||
+              "$filename" == .* && "$filename" != *.*.* ]]; then
+
             ((EXTENSIONLESS_FILES += 1))
+
+            printf '%s\0' "$filename" >> "$TEMP_DIR/extensionless"
+
             continue
         fi
+
+        ((FILES_WITH_EXTENSION += 1))
 
         extension="${filename##*.}"
         extension="${extension,,}"
@@ -341,46 +375,59 @@ collect_inventory() {
         case "$category" in
 
             LANGUAGE)
+
                 LANGUAGE_COUNTS["$name"]=$(( ${LANGUAGE_COUNTS["$name"]:-0} + 1 ))
-                ((CLASSIFIED_FILES += 1))
+                ((LANGUAGE_TOTAL += 1))
                 ;;
 
             TECHNOLOGY)
+
                 TECHNOLOGY_COUNTS["$name"]=$(( ${TECHNOLOGY_COUNTS["$name"]:-0} + 1 ))
-                ((CLASSIFIED_FILES += 1))
+                ((TECHNOLOGY_TOTAL += 1))
                 ;;
 
             AMBIGUOUS)
+
                 AMBIGUOUS_COUNTS["$name"]=$(( ${AMBIGUOUS_COUNTS["$name"]:-0} + 1 ))
                 ((AMBIGUOUS_FILES += 1))
                 ;;
 
             UNKNOWN)
+
                 UNKNOWN_COUNTS["$name"]=$(( ${UNKNOWN_COUNTS["$name"]:-0} + 1 ))
                 ((UNKNOWN_FILES += 1))
                 ;;
+
         esac
 
     done < "$TEMP_DIR/files"
+
+    CLASSIFIED_FILES=$((LANGUAGE_TOTAL + TECHNOLOGY_TOTAL))
 }
 
 # ------------------------------------------------------------
-# 5. Generacion de informe
+# 5. Utilidades de informe
 # ------------------------------------------------------------
 
 percentage() {
+
     local count="$1"
     local denominator="$2"
 
     if (( denominator == 0 )); then
+
         printf "0.00"
+
     else
+
         awk -v n="$count" -v d="$denominator" \
             'BEGIN { printf "%.2f", (n/d)*100 }'
+
     fi
 }
 
-write_distribution() {
+write_sorted_distribution() {
+
     local title="$1"
     local denominator="$2"
     local array_name="$3"
@@ -395,37 +442,91 @@ write_distribution() {
     printf '|---|---:|---:|\n' >> "$REPORT_FILE"
 
     case "$array_name" in
+
         LANGUAGE)
-            for key in "${!LANGUAGE_COUNTS[@]}"; do
+
+            while IFS= read -r key; do
+
                 count="${LANGUAGE_COUNTS[$key]}"
                 pct="$(percentage "$count" "$denominator")"
-                printf '| %s | %s | %s%% |\n' "$key" "$count" "$pct" >> "$REPORT_FILE"
-            done
+
+                printf '| %s | %s | %s%% |\n' \
+                    "$key" "$count" "$pct" >> "$REPORT_FILE"
+
+            done < <(printf '%s\n' "${!LANGUAGE_COUNTS[@]}" | sort)
+
             ;;
+
         TECHNOLOGY)
-            for key in "${!TECHNOLOGY_COUNTS[@]}"; do
+
+            while IFS= read -r key; do
+
                 count="${TECHNOLOGY_COUNTS[$key]}"
                 pct="$(percentage "$count" "$denominator")"
-                printf '| %s | %s | %s%% |\n' "$key" "$count" "$pct" >> "$REPORT_FILE"
-            done
+
+                printf '| %s | %s | %s%% |\n' \
+                    "$key" "$count" "$pct" >> "$REPORT_FILE"
+
+            done < <(printf '%s\n' "${!TECHNOLOGY_COUNTS[@]}" | sort)
+
             ;;
+
     esac
 }
 
-generate_report() {
-    local language_total=0
-    local technology_total=0
+write_sorted_counts() {
+
+    local title="$1"
+    local array_name="$2"
+
     local key
+    local count
+
+    printf '\n## %s\n\n' "$title" >> "$REPORT_FILE"
+
+    printf '| Extension | Archivos |\n' >> "$REPORT_FILE"
+    printf '|---|---:|\n' >> "$REPORT_FILE"
+
+    case "$array_name" in
+
+        AMBIGUOUS)
+
+            while IFS= read -r key; do
+
+                count="${AMBIGUOUS_COUNTS[$key]}"
+
+                printf '| .%s | %s |\n' \
+                    "$key" "$count" >> "$REPORT_FILE"
+
+            done < <(printf '%s\n' "${!AMBIGUOUS_COUNTS[@]}" | sort)
+
+            ;;
+
+        UNKNOWN)
+
+            while IFS= read -r key; do
+
+                count="${UNKNOWN_COUNTS[$key]}"
+
+                printf '| .%s | %s |\n' \
+                    "$key" "$count" >> "$REPORT_FILE"
+
+            done < <(printf '%s\n' "${!UNKNOWN_COUNTS[@]}" | sort)
+
+            ;;
+
+    esac
+}
+
+# ------------------------------------------------------------
+# 6. Generacion de informe
+# ------------------------------------------------------------
+
+generate_report() {
+
+    local file
 
     REPORT_FILE="$OUTPUT_DIR/$REPORT_NAME"
-
-    for key in "${!LANGUAGE_COUNTS[@]}"; do
-        ((language_total += LANGUAGE_COUNTS[$key]))
-    done
-
-    for key in "${!TECHNOLOGY_COUNTS[@]}"; do
-        ((technology_total += TECHNOLOGY_COUNTS[$key]))
-    done
 
     {
         echo "# Identificacion y distribucion de lenguajes"
@@ -449,56 +550,67 @@ generate_report() {
         echo "| Indicador | Cantidad |"
         echo "|---|---:|"
         echo "| Archivos examinados | $TOTAL_FILES |"
-        echo "| Archivos clasificados | $CLASSIFIED_FILES |"
-        echo "| Archivos sin extension | $EXTENSIONLESS_FILES |"
+        echo "| Archivos con extension | $FILES_WITH_EXTENSION |"
+        echo "| Lenguajes identificados | $LANGUAGE_TOTAL |"
+        echo "| Formatos tecnologicos | $TECHNOLOGY_TOTAL |"
+        echo "| Archivos clasificados sin ambiguedad | $CLASSIFIED_FILES |"
         echo "| Extensiones ambiguas | $AMBIGUOUS_FILES |"
         echo "| Extensiones desconocidas | $UNKNOWN_FILES |"
+        echo "| Archivos sin extension | $EXTENSIONLESS_FILES |"
         echo
     } > "$REPORT_FILE"
 
-    write_distribution \
+    write_sorted_distribution \
         "4. Distribucion de lenguajes" \
-        "$language_total" LANGUAGE LANGUAGE
+        "$LANGUAGE_TOTAL" LANGUAGE
 
-    write_distribution \
+    write_sorted_distribution \
         "5. Distribucion tecnologica" \
-        "$technology_total" TECHNOLOGY TECHNOLOGY
+        "$TECHNOLOGY_TOTAL" TECHNOLOGY
+
+    write_sorted_counts \
+        "6. Extensiones ambiguas" AMBIGUOUS
+
+    write_sorted_counts \
+        "7. Extensiones desconocidas" UNKNOWN
 
     {
         echo
-        echo "## 6. Extensiones ambiguas"
+        echo "## 8. Archivos sin extension"
         echo
-        echo "| Extension | Archivos |"
-        echo "|---|---:|"
+        echo "| Archivo |"
+        echo "|---|"
     } >> "$REPORT_FILE"
 
-    for key in "${!AMBIGUOUS_COUNTS[@]}"; do
-        printf '| .%s | %s |\n' "$key" "${AMBIGUOUS_COUNTS[$key]}" >> "$REPORT_FILE"
-    done
+    if [[ -s "$TEMP_DIR/extensionless" ]]; then
+
+        while IFS= read -r -d '' file; do
+
+            printf '| %s |\n' "$file" >> "$REPORT_FILE"
+
+        done < <(
+            tr '\0' '\n' < "$TEMP_DIR/extensionless" | sort
+        )
+
+    else
+
+        echo "| Ninguno |" >> "$REPORT_FILE"
+
+    fi
 
     {
         echo
-        echo "## 7. Extensiones desconocidas"
-        echo
-        echo "| Extension | Archivos |"
-        echo "|---|---:|"
-    } >> "$REPORT_FILE"
-
-    for key in "${!UNKNOWN_COUNTS[@]}"; do
-        printf '| .%s | %s |\n' "$key" "${UNKNOWN_COUNTS[$key]}" >> "$REPORT_FILE"
-    done
-
-    {
-        echo
-        echo "## 8. Observaciones y limitaciones"
+        echo "## 9. Observaciones y limitaciones"
         echo
         echo "- La clasificacion se basa en extensiones."
         echo "- Las extensiones ambiguas no se asignan arbitrariamente."
         echo "- Los archivos desconocidos no se consideran lenguajes identificados."
         echo "- Los archivos sin extension se contabilizan separadamente."
+        echo "- Los porcentajes de lenguajes utilizan como denominador los lenguajes identificados."
+        echo "- Los porcentajes tecnologicos utilizan como denominador los formatos tecnologicos identificados."
         echo "- No se ejecutaron archivos del repositorio."
         echo
-        echo "## 9. Trazabilidad"
+        echo "## 10. Trazabilidad"
         echo
         echo "| Campo | Resultado |"
         echo "|---|---|"
@@ -511,7 +623,7 @@ generate_report() {
 }
 
 # ------------------------------------------------------------
-# 6. Programa principal
+# 7. Programa principal
 # ------------------------------------------------------------
 
 main() {
@@ -522,11 +634,15 @@ main() {
     echo "============================================================"
 
     parse_arguments "$@"
+
     validate_repository
+
     validate_output
+
     prepare_environment
 
     collect_inventory
+
     generate_report
 
     echo
