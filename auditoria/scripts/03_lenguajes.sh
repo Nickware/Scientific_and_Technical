@@ -487,34 +487,53 @@ write_sorted_counts() {
     printf '| Extension | Archivos |\n' >> "$REPORT_FILE"
     printf '|---|---:|\n' >> "$REPORT_FILE"
 
-    case "$array_name" in
+        case "$array_name" in
 
         AMBIGUOUS)
 
-            while IFS= read -r key; do
+            if [[ ${#AMBIGUOUS_COUNTS[@]} -gt 0 ]]; then
 
-                count="${AMBIGUOUS_COUNTS[$key]}"
+                while IFS= read -r key; do
 
-                printf '| .%s | %s |\n' \
-                    "$key" "$count" >> "$REPORT_FILE"
+                    count="${AMBIGUOUS_COUNTS[$key]}"
 
-            done < <(printf '%s\n' "${!AMBIGUOUS_COUNTS[@]}" | sort)
+                    printf '| .%s | %s |\n' \
+                        "$key" "$count" >> "$REPORT_FILE"
+
+                done < <(
+                    printf '%s\n' "${!AMBIGUOUS_COUNTS[@]}" | sort
+                )
+
+            else
+
+                printf '| Ninguna | 0 |\n' >> "$REPORT_FILE"
+
+            fi
 
             ;;
 
         UNKNOWN)
 
-            while IFS= read -r key; do
+            if [[ ${#UNKNOWN_COUNTS[@]} -gt 0 ]]; then
 
-                count="${UNKNOWN_COUNTS[$key]}"
+                while IFS= read -r key; do
 
-                printf '| .%s | %s |\n' \
-                    "$key" "$count" >> "$REPORT_FILE"
+                    count="${UNKNOWN_COUNTS[$key]}"
 
-            done < <(printf '%s\n' "${!UNKNOWN_COUNTS[@]}" | sort)
+                    printf '| .%s | %s |\n' \
+                        "$key" "$count" >> "$REPORT_FILE"
+
+                done < <(
+                    printf '%s\n' "${!UNKNOWN_COUNTS[@]}" | sort
+                )
+
+            else
+
+                printf '| Ninguna | 0 |\n' >> "$REPORT_FILE"
+
+            fi
 
             ;;
-
     esac
 }
 
@@ -582,21 +601,24 @@ generate_report() {
         echo "|---|"
     } >> "$REPORT_FILE"
 
+    
     if [[ -s "$TEMP_DIR/extensionless" ]]; then
+
+        sort -z "$TEMP_DIR/extensionless" \
+            > "$TEMP_DIR/extensionless_sorted"
 
         while IFS= read -r -d '' file; do
 
             printf '| %s |\n' "$file" >> "$REPORT_FILE"
 
-        done < <(
-            tr '\0' '\n' < "$TEMP_DIR/extensionless" | sort
-        )
+        done < "$TEMP_DIR/extensionless_sorted"
 
     else
 
         echo "| Ninguno |" >> "$REPORT_FILE"
 
     fi
+
 
     {
         echo
