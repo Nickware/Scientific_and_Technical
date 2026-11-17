@@ -323,9 +323,11 @@ classify_extension() {
 collect_inventory() {
 
     local file
+    local escaped_file
     local filename
-    local extension
+    local extension    
     local classification
+    local relative_file
     local category
     local name
 
@@ -349,6 +351,10 @@ collect_inventory() {
 
         filename="${file##*/}"
 
+        # Obtener la ruta relativa al repositorio.
+        relative_file="${file#"$REPOSITORY"}"
+        relative_file="${relative_file#/}"
+
         # Archivos sin extension:
         # incluye nombres ocultos como .gitignore.
 
@@ -357,7 +363,8 @@ collect_inventory() {
 
             ((EXTENSIONLESS_FILES += 1))
 
-            printf '%s\0' "$filename" >> "$TEMP_DIR/extensionless"
+            #printf '%s\0' "$filename" >> "$TEMP_DIR/extensionless"
+            printf '%s\0' "$relative_file" >> "$TEMP_DIR/extensionless"
 
             continue
         fi
@@ -408,6 +415,37 @@ collect_inventory() {
 # ------------------------------------------------------------
 # 5. Utilidades de informe
 # ------------------------------------------------------------
+
+escape_markdown_table_cell() {
+
+    local value="$1"
+    local backtick
+
+    # Escapar caracteres especiales de Markdown.
+    value="${value//\\/\\\\}"
+    value="${value//&/&amp;}"
+    value="${value//|/\\|}"
+
+    # Representar caracteres de control.
+    value="${value//$'\n'/\\n}"
+    value="${value//$'\r'/\\r}"
+    value="${value//$'\t'/\\t}"
+
+    # Evitar interpretaciones de formato Markdown.
+    value="${value//\*/\\*}"
+    value="${value//_/\\_}"
+    value="${value//\[/\\[}"
+    value="${value//\]/\\]}"
+    value="${value//\(/\\(}"
+    value="${value//</&lt;}"
+    value="${value//>/&gt;}"
+
+    # Representar backticks mediante una entidad HTML.
+    backtick='`'
+    value="${value//"$backtick"/&#96;}"
+
+    printf '%s' "$value"
+}
 
 percentage() {
 
@@ -564,6 +602,16 @@ write_sorted_counts() {
 generate_report() {
 
     local file
+    local project_name
+    local repository_path
+
+    project_name="$(
+        escape_markdown_table_cell "$(basename "$REPOSITORY")"
+    )"
+
+    repository_path="$(
+        escape_markdown_table_cell "$REPOSITORY"
+    )"
 
     REPORT_FILE="$OUTPUT_DIR/$REPORT_NAME"
 
@@ -574,8 +622,10 @@ generate_report() {
         echo
         echo "| Campo | Resultado |"
         echo "|---|---|"
-        echo "| Proyecto | $(basename "$REPOSITORY") |"
-        echo "| Ruta examinada | $REPOSITORY |"
+        #echo "| Proyecto | $(basename "$REPOSITORY") |"
+        #echo "| Ruta examinada | $REPOSITORY |"
+        echo "| Proyecto | $project_name |"
+        echo "| Ruta examinada | $repository_path |"
         echo "| Fecha de auditoria | $(date '+%Y-%m-%d %H:%M:%S') |"
         echo "| Version del modulo | $VERSION |"
         echo
@@ -629,7 +679,9 @@ generate_report() {
 
         while IFS= read -r -d '' file; do
 
-            printf '| %s |\n' "$file" >> "$REPORT_FILE"
+            escaped_file="$(escape_markdown_table_cell "$file")"
+
+            printf '| %s |\n' "$escaped_file" >> "$REPORT_FILE"
 
         done < "$TEMP_DIR/extensionless_sorted"
 
